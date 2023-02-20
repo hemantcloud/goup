@@ -15,6 +15,7 @@ class AppColors {
   static const Color white = Color(0xFFFFFFFF); // AppColors.white
   static const Color bg = Color(0xFFF3F3F3); // AppColors.bg
   static const Color red = Colors.red; // AppColors.red
+  static const Color red2 = Color(0xFFE84F41); // AppColors.red2
   static const Color yellow = Color(0xFFFBBC04); // AppColors.yellow
 }
 class AppDate{

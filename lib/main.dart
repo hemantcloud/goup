@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:goup/views/authentication/interests.dart';
 import 'package:goup/views/dashboard.dart';
 import 'package:goup/views/splash.dart';
 import 'package:goup/views/test.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Sora',
       ),
       home: Splash(),
+      // home: Interests(),
       // home: Test(),
       // home: Dashboard(bottomIndex: 0),
     );

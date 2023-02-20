@@ -1,20 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_const_declarations
 
 
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:goup/models/product_model.dart';
-import 'package:goup/views/authentication/interests.dart';
-import 'package:goup/views/authentication/otp.dart';
 import 'package:goup/views/profile/edit_profile.dart';
 import 'package:goup/views/profile/profile_settings.dart';
-import 'package:goup/views/test.dart';
 import 'package:goup/views/utilities/utilities.dart';
-import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:flutter_multi_select_items/flutter_multi_select_items.dart';
 import 'package:readmore/readmore.dart';
 
 class Profile extends StatefulWidget {
@@ -172,6 +166,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                             Text(
                               'Ryadh, Saudi Arabia',
                               style: TextStyle(
+                                fontSize: 12.0,
                                 color: AppColors.text,
                               ),
                             ),
@@ -187,14 +182,15 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                   Text(
                                     '17.5k',
                                     style: TextStyle(
-                                        color: AppColors.black,
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w600
+                                      color: AppColors.black,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w600
                                     ),
                                   ),
                                   Text(
                                     'Following',
                                     style: TextStyle(
+                                      fontSize: 12.0,
                                       color: AppColors.text,
                                     ),
                                   ),
@@ -208,14 +204,15 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                   Text(
                                     '3.8k',
                                     style: TextStyle(
-                                        color: AppColors.black,
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w600
+                                      color: AppColors.black,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w600
                                     ),
                                   ),
                                   Text(
                                     'Followers',
                                     style: TextStyle(
+                                      fontSize: 12.0,
                                       color: AppColors.text,
                                     ),
                                   ),
@@ -229,14 +226,15 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                                   Text(
                                     '254',
                                     style: TextStyle(
-                                        color: AppColors.black,
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.w600
+                                      color: AppColors.black,
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.w600
                                     ),
                                   ),
                                   Text(
                                     'Products',
                                     style: TextStyle(
+                                      fontSize: 12.0,
                                       color: AppColors.text,
                                     ),
                                   ),

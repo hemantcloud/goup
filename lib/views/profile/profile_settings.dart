@@ -1,17 +1,18 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:goup/views/authentication/interests.dart';
-import 'package:goup/views/authentication/otp.dart';
+import 'package:goup/models/follower_model.dart';
+import 'package:goup/models/following_model.dart';
+import 'package:goup/views/profile/my_bills.dart';
+import 'package:goup/views/profile/order_requests.dart';
+import 'package:goup/views/profile/privacy_policy.dart';
+import 'package:goup/views/profile/terms_and_conditions.dart';
 import 'package:goup/views/utilities/utilities.dart';
-import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:flutter_multi_select_items/flutter_multi_select_items.dart';
 
 class ProfileSettings extends StatefulWidget {
   ProfileSettings({Key? key}) : super(key: key);
@@ -20,33 +21,60 @@ class ProfileSettings extends StatefulWidget {
   State<ProfileSettings> createState() => _ProfileSettingsState();
 }
 
-class _ProfileSettingsState extends State<ProfileSettings> {
-  bool isCalendarClicked = false;
-  String? gender;
-  DateTime selectedDate = DateTime.now();
-  var dateController = TextEditingController();
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(1970, 8),
-      lastDate: DateTime(2101),
-      keyboardType: TextInputType.datetime,
-      currentDate: selectedDate,
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        // dateController.text = '${AppDate().toDate(selectedDate.toString())}/${AppDate().toMonth(selectedDate.toString())}/${AppDate().toYear(selectedDate.toString())}';
-        String formattedDate = DateFormat('dd-MM-yyyy').format(selectedDate);
-        dateController.text = formattedDate;
-      });
-    }
+class _ProfileSettingsState extends State<ProfileSettings> with TickerProviderStateMixin {
+  bool accountprivacystatus = false;
+  bool basketprivacystatus = false;
+  bool appnotifistatus = false;
+  bool servicenotifistatus = false;
+  bool messageenotifistatus = false;
+  bool transactionnotifistatus = false;
+  bool managementnotifistatus = false;
+  bool promotionalnotifistatus = false;
+  late TabController _tabBarController;
+  final List<FollowerModel> followersList = [
+    FollowerModel(name: 'Samir Karim', mutual: 255, isFollowing: false),
+    FollowerModel(name: 'Hafeez Janat', mutual: 543, isFollowing: true),
+    FollowerModel(name: 'Samir Karim', mutual: 354, isFollowing: false),
+    FollowerModel(name: 'Hafeez Janat', mutual: 686, isFollowing: false),
+    FollowerModel(name: 'Samir Karim', mutual: 566, isFollowing: false),
+    FollowerModel(name: 'Hafeez Janat', mutual: 664, isFollowing: true),
+    FollowerModel(name: 'Samir Karim', mutual: 141, isFollowing: true),
+    FollowerModel(name: 'Hafeez Janat', mutual: 543, isFollowing: true),
+    FollowerModel(name: 'Samir Karim', mutual: 365, isFollowing: false),
+    FollowerModel(name: 'Hafeez Janat', mutual: 7443, isFollowing: true),
+    FollowerModel(name: 'Samir Karim', mutual: 124, isFollowing: false),
+    FollowerModel(name: 'Hafeez Janat', mutual: 666, isFollowing: false),
+    FollowerModel(name: 'Samir Karim', mutual: 6456, isFollowing: true),
+    FollowerModel(name: 'Hafeez Janat', mutual: 645, isFollowing: true),
+  ];
+  final List<FollowingModel> followingList = [
+    FollowingModel(name: 'Samir Karim', mutual: 255),
+    FollowingModel(name: 'Hafeez Janat', mutual: 543),
+    FollowingModel(name: 'Samir Karim', mutual: 354),
+    FollowingModel(name: 'Hafeez Janat', mutual: 686),
+    FollowingModel(name: 'Samir Karim', mutual: 566),
+    FollowingModel(name: 'Hafeez Janat', mutual: 664),
+    FollowingModel(name: 'Samir Karim', mutual: 141),
+    FollowingModel(name: 'Hafeez Janat', mutual: 543),
+    FollowingModel(name: 'Samir Karim', mutual: 365),
+    FollowingModel(name: 'Hafeez Janat', mutual: 7443),
+    FollowingModel(name: 'Samir Karim', mutual: 124),
+    FollowingModel(name: 'Hafeez Janat', mutual: 666),
+    FollowingModel(name: 'Samir Karim', mutual: 6456),
+    FollowingModel(name: 'Hafeez Janat', mutual: 645),
+  ];
+  @override
+  void initState() {
+// TODO: implement initState
+    super.initState();
+    _tabBarController = TabController(length: 2, vsync: this);
   }
-  bool fbstatus = false;
-  bool twitterstatus = false;
-  bool instastatus = false;
-  bool linkedinstatus = false;
+
+  @override
+  void dispose() {
+    _tabBarController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,6 +156,69 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                       Expanded(
                         flex: 1,
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: InkWell(
+                                onTap: () => followBottomSheet(context),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Farhan Malik',
+                                      style: TextStyle(
+                                        color: AppColors.black,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                    Text(
+                                      'Following - 28.3k',
+                                      style: TextStyle(
+                                        fontSize: 13.0,
+                                        color: AppColors.secondary,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                      maxLines: 1,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SvgPicture.asset('assets/icons/vertical_line2.svg',height: 30.0),
+                            Expanded(
+                              flex: 1,
+                              child: InkWell(
+                                onTap: () => followBottomSheet(context),
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Text(
+                                        '@farh_malik98',
+                                        style: TextStyle(
+                                          color: AppColors.primary,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Text(
+                                        'Followers - 11.3k',
+                                        style: TextStyle(
+                                          fontSize: 13.0,
+                                          color: AppColors.secondary,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                    ],
+                                  ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      /*Expanded(
+                        flex: 1,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -139,7 +230,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   child: Text(
                                     'Farhan Malik',
                                     style: TextStyle(
-                                      fontSize: 15.0,
                                       color: AppColors.black,
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -149,14 +239,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 SvgPicture.asset('assets/icons/vertical_line2.svg'),
                                 SizedBox(width: 10.0),
                                 Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    '@farh_malik98',
-                                    style: TextStyle(
-                                      color: AppColors.primary,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  )
+                                    flex: 1,
+                                    child: Text(
+                                      '@farh_malik98',
+                                      style: TextStyle(
+                                        color: AppColors.primary,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    )
                                 ),
                               ],
                             ),
@@ -168,6 +258,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   child: Text(
                                     'Following - 28.3k',
                                     style: TextStyle(
+                                      fontSize: 13.0,
                                       color: AppColors.secondary,
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -181,6 +272,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   child: Text(
                                     'Followers - 11.3k',
                                     style: TextStyle(
+                                      fontSize: 13.0,
                                       color: AppColors.secondary,
                                     ),
                                     overflow: TextOverflow.ellipsis,
@@ -191,7 +283,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             ),
                           ],
                         ),
-                      ),
+                      ),*/
                       Container(
                         padding: EdgeInsets.only(left: 10.0),
                         child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
@@ -201,14 +293,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ],
               ),
             ),
-            InkWell(
-              onTap: () => filterBottomSheet(context),
-              child: Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.symmetric(vertical: 10.0),
-                child: Text(
-                  'Account settings',style: TextStyle(color: AppColors.black,fontSize: 18.0,fontWeight: FontWeight.w600),
-                ),
+            Container(
+              alignment: Alignment.centerLeft,
+              padding: EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                'Account settings',style: TextStyle(color: AppColors.black,fontSize: 18.0,fontWeight: FontWeight.w600),
               ),
             ),
             Container(
@@ -219,35 +308,38 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               ),
               child: Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(right: 10.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(60.0)),
-                          ),
-                          child: SvgPicture.asset('assets/icons/account_privacy.svg'),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'Account privacy',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: AppColors.black,
+                  InkWell(
+                    onTap: () => accountPrivacyBottomSheet(context),
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(right: 10.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(60.0)),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                            child: SvgPicture.asset('assets/icons/account_privacy.svg'),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
-                        )
-                      ],
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              'Account privacy',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: AppColors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Row(
@@ -261,35 +353,38 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ],
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(right: 10.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(60.0)),
-                          ),
-                          child: SvgPicture.asset('assets/icons/basket_privacy.svg'),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'Basket Privacy',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: AppColors.black,
+                  InkWell(
+                    onTap: () => basketPrivacyBottomSheet(context),
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(right: 10.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(60.0)),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                            child: SvgPicture.asset('assets/icons/basket_privacy.svg'),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
-                        )
-                      ],
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              'Basket Privacy',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: AppColors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Row(
@@ -345,35 +440,49 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ],
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(right: 10.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(60.0)),
-                          ),
-                          child: SvgPicture.asset('assets/icons/my_bills.svg'),
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeftWithFade,
+                          alignment: Alignment.topCenter,
+                          duration: Duration(milliseconds: 1000),
+                          isIos: true,
+                          child: MyBills(),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'My Bills/Earnings',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: AppColors.black,
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(right: 10.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(60.0)),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                            child: SvgPicture.asset('assets/icons/my_bills.svg'),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
-                        )
-                      ],
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              'My Bills/Earnings',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: AppColors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -388,35 +497,49 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               ),
               child: Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(right: 10.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(60.0)),
-                          ),
-                          child: SvgPicture.asset('assets/icons/my_requests.svg'),
+                  InkWell(
+                    onTap: (){
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeftWithFade,
+                          alignment: Alignment.topCenter,
+                          duration: Duration(milliseconds: 1000),
+                          isIos: true,
+                          child: OrderRequests(),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'My requests',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: AppColors.black,
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(right: 10.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(60.0)),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                            child: SvgPicture.asset('assets/icons/my_requests.svg'),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
-                        )
-                      ],
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              'My requests',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: AppColors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Row(
@@ -478,35 +601,38 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               ),
               child: Column(
                 children: [
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(right: 10.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(60.0)),
-                          ),
-                          child: SvgPicture.asset('assets/icons/notification.svg'),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'Notification',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: AppColors.black,
+                  InkWell(
+                    onTap: () => notificationBottomSheet(context),
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(right: 10.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(60.0)),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                            child: SvgPicture.asset('assets/icons/notification.svg'),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
-                        )
-                      ],
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              'Notification',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: AppColors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Row(
@@ -630,35 +756,49 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ],
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(right: 10.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(60.0)),
-                          ),
-                          child: SvgPicture.asset('assets/icons/privacy_policy.svg'),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeftWithFade,
+                          alignment: Alignment.topCenter,
+                          duration: Duration(milliseconds: 1000),
+                          isIos: true,
+                          child: PrivacyPolicy(),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'Privacy Policy',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: AppColors.black,
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(right: 10.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(60.0)),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                            child: SvgPicture.asset('assets/icons/privacy_policy.svg'),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
-                        )
-                      ],
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              'Privacy Policy',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: AppColors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Row(
@@ -672,35 +812,49 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ],
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(right: 10.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(60.0)),
-                          ),
-                          child: SvgPicture.asset('assets/icons/terms.svg'),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeftWithFade,
+                          alignment: Alignment.topCenter,
+                          duration: Duration(milliseconds: 1000),
+                          isIos: true,
+                          child: TermsAndCondition(),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'Terms of use',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: AppColors.black,
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(right: 10.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(60.0)),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                            child: SvgPicture.asset('assets/icons/terms.svg'),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
-                        )
-                      ],
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              'Terms of use',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: AppColors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Row(
@@ -793,7 +947,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       ),
     );
   }
-
   myInputDecoration(String s) {
     return InputDecoration(
       hintText: s,
@@ -804,7 +957,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       border: InputBorder.none,
     );
   }
-  filterBottomSheet(BuildContext context) {
+  accountPrivacyBottomSheet(BuildContext context) {
     return showModalBottomSheet(
         context: context,
         isScrollControlled: true,
@@ -819,7 +972,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       constraints: BoxConstraints(
                         maxHeight: double.infinity,
                       ),
-                      margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                      margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(25.0),
                         color: Colors.white,
@@ -834,90 +987,669 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             // color: Colors.black,
                           ),
                           Container(
-                            padding: EdgeInsets.only(top: 20.0,left: 20.0,right: 20.0),
-                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.all(20.0),
+                            alignment: Alignment.center,
                             child: Text(
-                              'Summary of this post',
+                              'Account Privacy',
                               style: TextStyle(
-                                color: AppColors.primary,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.w500,
+                                color: AppColors.black,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
+                          ),
+                          const Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
                           ),
                           Container(
-                            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
                             alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.all(20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'General',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: AppColors.black
+                                  ),
+                                ),
+                                FlutterSwitch(
+                                  width: 50.0,
+                                  height: 25.0,
+                                  toggleSize: 25.0,
+                                  value: accountprivacystatus,
+                                  activeText: '',
+                                  activeColor: AppColors.primary,
+                                  inactiveColor: Color(0xFFE5E5E6),
+                                  inactiveText: '',
+                                  borderRadius: 30.0,
+                                  padding: 2.0,
+                                  duration: Duration(milliseconds: 250),
+                                  showOnOff: true,
+                                  onToggle: (val) {
+                                    setState(() {});
+                                    accountprivacystatus = val;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        });
+  }
+  basketPrivacyBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                child: Wrap(
+                  children: [
+                    Container(
+                      constraints: BoxConstraints(
+                        maxHeight: double.infinity,
+                      ),
+                      margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25.0),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 30.0),
+                          const Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(20.0),
+                            alignment: Alignment.center,
                             child: Text(
-                              'With changes over the previous period',
+                              'Basket Privacy',
                               style: TextStyle(
-                                color: AppColors.secondary,
+                                color: AppColors.black,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
-                          GridView.builder(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 30 / 2,
-                              childAspectRatio: 8 / 4,
+                          const Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.all(20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'General',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: AppColors.black
+                                  ),
+                                ),
+                                FlutterSwitch(
+                                  width: 50.0,
+                                  height: 25.0,
+                                  toggleSize: 25.0,
+                                  value: basketprivacystatus,
+                                  activeText: '',
+                                  activeColor: AppColors.primary,
+                                  inactiveColor: Color(0xFFE5E5E6),
+                                  inactiveText: '',
+                                  borderRadius: 30.0,
+                                  padding: 2.0,
+                                  duration: Duration(milliseconds: 250),
+                                  showOnOff: true,
+                                  onToggle: (val) {
+                                    setState(() {});
+                                    basketprivacystatus = val;
+                                  },
+                                ),
+                              ],
                             ),
-                            itemCount: 8,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Column(
-                                children: [
-                                  Container(
-                                    // color: Colors.transparent,
-                                    padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.only(bottom: 5.0),
-                                          // color: Colors.red,
-                                          alignment: Alignment.centerLeft,
-                                          child: Text(
-                                            'Products',
-                                            style: TextStyle(color: AppColors.black),
-                                          ),
-                                        ),
-                                        Row(
-                                          // crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        });
+  }
+  notificationBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                child: Wrap(
+                  children: [
+                    Container(
+                      constraints: BoxConstraints(
+                        maxHeight: double.infinity,
+                      ),
+                      margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25.0),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 30.0),
+                          Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(20.0),
+                            alignment: Alignment.center,
+                            child: Text(
+                              'Notifications settings',
+                              style: TextStyle(
+                                color: AppColors.black,
+                                fontSize: 18.0,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'App. notifications',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: AppColors.black
+                                  ),
+                                ),
+                                FlutterSwitch(
+                                  width: 50.0,
+                                  height: 25.0,
+                                  toggleSize: 25.0,
+                                  value: appnotifistatus,
+                                  activeText: '',
+                                  activeColor: AppColors.primary,
+                                  inactiveColor: Color(0xFFE5E5E6),
+                                  inactiveText: '',
+                                  borderRadius: 30.0,
+                                  padding: 2.0,
+                                  duration: Duration(milliseconds: 250),
+                                  showOnOff: true,
+                                  onToggle: (val) {
+                                    setState(() {});
+                                    appnotifistatus = val;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Service notifications',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: AppColors.black
+                                  ),
+                                ),
+                                FlutterSwitch(
+                                  width: 50.0,
+                                  height: 25.0,
+                                  toggleSize: 25.0,
+                                  value: servicenotifistatus,
+                                  activeText: '',
+                                  activeColor: AppColors.primary,
+                                  inactiveColor: Color(0xFFE5E5E6),
+                                  inactiveText: '',
+                                  borderRadius: 30.0,
+                                  padding: 2.0,
+                                  duration: Duration(milliseconds: 250),
+                                  showOnOff: true,
+                                  onToggle: (val) {
+                                    setState(() {});
+                                    servicenotifistatus = val;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Message notifications',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: AppColors.black
+                                  ),
+                                ),
+                                FlutterSwitch(
+                                  width: 50.0,
+                                  height: 25.0,
+                                  toggleSize: 25.0,
+                                  value: messageenotifistatus,
+                                  activeText: '',
+                                  activeColor: AppColors.primary,
+                                  inactiveColor: Color(0xFFE5E5E6),
+                                  inactiveText: '',
+                                  borderRadius: 30.0,
+                                  padding: 2.0,
+                                  duration: Duration(milliseconds: 250),
+                                  showOnOff: true,
+                                  onToggle: (val) {
+                                    setState(() {});
+                                    messageenotifistatus = val;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Transaction notifications',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: AppColors.black
+                                  ),
+                                ),
+                                FlutterSwitch(
+                                  width: 50.0,
+                                  height: 25.0,
+                                  toggleSize: 25.0,
+                                  value: transactionnotifistatus,
+                                  activeText: '',
+                                  activeColor: AppColors.primary,
+                                  inactiveColor: Color(0xFFE5E5E6),
+                                  inactiveText: '',
+                                  borderRadius: 30.0,
+                                  padding: 2.0,
+                                  duration: Duration(milliseconds: 250),
+                                  showOnOff: true,
+                                  onToggle: (val) {
+                                    setState(() {});
+                                    transactionnotifistatus = val;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Management notifications',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: AppColors.black
+                                  ),
+                                ),
+                                FlutterSwitch(
+                                  width: 50.0,
+                                  height: 25.0,
+                                  toggleSize: 25.0,
+                                  value: managementnotifistatus,
+                                  activeText: '',
+                                  activeColor: AppColors.primary,
+                                  inactiveColor: Color(0xFFE5E5E6),
+                                  inactiveText: '',
+                                  borderRadius: 30.0,
+                                  padding: 2.0,
+                                  duration: Duration(milliseconds: 250),
+                                  showOnOff: true,
+                                  onToggle: (val) {
+                                    setState(() {});
+                                    managementnotifistatus = val;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.symmetric(horizontal: 20.0,vertical: 10.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Promotional notifications',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                    color: AppColors.black
+                                  ),
+                                ),
+                                FlutterSwitch(
+                                  width: 50.0,
+                                  height: 25.0,
+                                  toggleSize: 25.0,
+                                  value: promotionalnotifistatus,
+                                  activeText: '',
+                                  activeColor: AppColors.primary,
+                                  inactiveColor: Color(0xFFE5E5E6),
+                                  inactiveText: '',
+                                  borderRadius: 30.0,
+                                  padding: 2.0,
+                                  duration: Duration(milliseconds: 250),
+                                  showOnOff: true,
+                                  onToggle: (val) {
+                                    setState(() {});
+                                    promotionalnotifistatus = val;
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 10.0),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        });
+  }
+  followBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                child: Wrap(
+                  children: [
+                    Container(
+                      /*constraints: BoxConstraints(
+                        maxHeight: double.infinity,
+                      ),*/
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height * 0.7,
+                      margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25.0),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(height: 30.0),
+                          Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            height: 70,
+                            margin: EdgeInsets.only(top: 20.0,left: 10.0,right: 10.0),
+                            padding: EdgeInsets.symmetric(vertical: 5.0),
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Color(0xFFF1F1F7)),
+                                borderRadius: BorderRadius.circular(8.0),
+                                color: Color(0xFFF1F1F7)
+                            ),
+                            // alignment: Alignment.center,
+                            child: TabBar(
+                              controller: _tabBarController,
+                              indicator: BoxDecoration(
+                                color: AppColors.primary,
+                                shape: BoxShape.rectangle,
+                                borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                              ),
+                              tabs: [
+                                Tab(text: '       3.8 k\nFollowers'),
+                                Tab(text: '       17.1 k\nFollowing'),
+                              ],
+                              labelColor: Colors.white,
+                              unselectedLabelColor: AppColors.text3,
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: TabBarView(
+                              controller: _tabBarController,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: followersList.isEmpty ? Center(child: Text('No followers .'),) : ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: const ScrollPhysics(),
+                                    itemCount: followersList.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return Container(
+                                        padding: const EdgeInsets.fromLTRB(20.0,20.0,20.0,0.0),
+                                        // color: Colors.green,
+                                        child: Column(
                                           children: [
-                                            Text(
-                                              '1.815',
-                                              style: TextStyle(
-                                                color: AppColors.primary,
-                                              ),
-                                            ),
-                                            Expanded(
-                                              flex: 1,
-                                              child: Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                children: [
-                                                  SvgPicture.asset('assets/icons/arrow_up.svg'),
-                                                  Text(
-                                                    '38.3%',
-                                                    style: TextStyle(
-                                                      color: AppColors.black,
-                                                    ),
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        followersList[index].name.toString(),
+                                                        style: const TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: AppColors.primary,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '${followersList[index].mutual.toString()} Mutual followers',
+                                                        style: const TextStyle(
+                                                          fontSize: 12.0,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: AppColors.text4,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
+                                                      ),
+                                                    ],
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                                SizedBox(width: 20.0),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        if(followersList[index].isFollowing == true){
+                                                          followersList[index].isFollowing = false;
+                                                        } else if(followersList[index].isFollowing == false){
+                                                          followersList[index].isFollowing = true;
+                                                        }
+                                                        setState((){});
+                                                      },
+                                                      child: Container(
+                                                        padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.all(Radius.circular(24.5)),
+                                                          color: Color(0xFFF6F6FC),
+                                                        ),
+                                                        child: Text(
+                                                          followersList[index].isFollowing == true ? 'Following' : 'Follow back',
+                                                          style: TextStyle(
+                                                            color:
+                                                            followersList[index].isFollowing == true ? AppColors.text3 : AppColors.primary,
+                                                          )
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
                                             ),
                                           ],
                                         ),
-                                        SvgPicture.asset('assets/icons/vertical_graph_line.svg'),
-                                      ],
-                                    ),
+                                      );
+                                    },
                                   ),
-                                ],
-                              );
-                            },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10.0),
+                                  child: followingList.isEmpty ? Center(child: Text('No following .'),) : ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: const ScrollPhysics(),
+                                    itemCount: followingList.length,
+                                    itemBuilder: (BuildContext context, int index) {
+                                      return Container(
+                                        padding: const EdgeInsets.fromLTRB(20.0,20.0,20.0,0.0),
+                                        // color: Colors.green,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              children: [
+                                                Expanded(
+                                                  flex: 1,
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                    children: [
+                                                      Text(
+                                                        followingList[index].name.toString(),
+                                                        style: const TextStyle(
+                                                          fontSize: 16.0,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: AppColors.primary,
+                                                        ),
+                                                      ),
+                                                      Text(
+                                                        '${followingList[index].mutual.toString()} Mutual followers',
+                                                        style: const TextStyle(
+                                                          fontSize: 12.0,
+                                                          fontWeight: FontWeight.w500,
+                                                          color: AppColors.text4,
+                                                        ),
+                                                        overflow: TextOverflow.ellipsis,
+                                                        maxLines: 1,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(width: 20.0),
+                                                Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                                  children: [
+                                                    InkWell(
+                                                      onTap: () {
+                                                        followingList.remove(followingList[index]);
+                                                        setState((){});
+                                                      },
+                                                      child: Container(
+                                                        padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.all(Radius.circular(24.5)),
+                                                          color: Color(0xFFFDF3F2),
+                                                        ),
+                                                        child: Text(
+                                                            'Unfollow',
+                                                            style: TextStyle(
+                                                              color: AppColors.red2,
+                                                            )
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
+                          SizedBox(height: 10.0),
                         ],
                       ),
                     ),
