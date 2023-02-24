@@ -7,6 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
 import 'package:goup/models/follower_model.dart';
 import 'package:goup/models/following_model.dart';
+import 'package:goup/views/authentication/login.dart';
+import 'package:goup/views/profile/about_us.dart';
 import 'package:goup/views/profile/my_bills.dart';
 import 'package:goup/views/profile/order_requests.dart';
 import 'package:goup/views/profile/privacy_policy.dart';
@@ -105,8 +107,8 @@ class _ProfileSettingsState extends State<ProfileSettings> with TickerProviderSt
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   child: Container(
-                    width: 24.0,
-                    height: 24.0,
+                    width: 20.0,
+                    height: 20.0,
                     child: SvgPicture.asset('assets/icons/back.svg',),
                   ),
                 ),
@@ -868,35 +870,49 @@ class _ProfileSettingsState extends State<ProfileSettings> with TickerProviderSt
                       ),
                     ],
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(right: 10.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(60.0)),
-                          ),
-                          child: SvgPicture.asset('assets/icons/about_us.svg'),
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeftWithFade,
+                          alignment: Alignment.topCenter,
+                          duration: Duration(milliseconds: 1000),
+                          isIos: true,
+                          child: AboutUs(),
                         ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'About us',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: AppColors.black,
+                      );
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(right: 10.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(60.0)),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                            child: SvgPicture.asset('assets/icons/about_us.svg'),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
-                        )
-                      ],
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              'About us',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: AppColors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -909,16 +925,17 @@ class _ProfileSettingsState extends State<ProfileSettings> with TickerProviderSt
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onTap: () {
-          /*Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             PageTransition(
               type: PageTransitionType.rightToLeftWithFade,
               alignment: Alignment.topCenter,
               duration: Duration(milliseconds: 1000),
               isIos: true,
-              child: Interests(),
+              child: Login(),
             ),
-          );*/
+            (route) => false,
+          );
         },
         child: Container(
           margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),

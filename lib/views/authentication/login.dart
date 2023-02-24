@@ -43,7 +43,7 @@ class _LoginState extends State<Login> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                InkWell(
+                /*InkWell(
                   onTap: () => Navigator.of(context).pop(),
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
@@ -52,7 +52,7 @@ class _LoginState extends State<Login> {
                     height: 24.0,
                     child: SvgPicture.asset('assets/icons/back.svg'),
                   ),
-                ),
+                ),*/
                 Expanded(
                   flex: 1,
                   child: Center(

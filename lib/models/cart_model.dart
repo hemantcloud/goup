@@ -9,5 +9,6 @@ class CartModel{
   int? qty;
   bool? selected;
   String? orderId;
-  CartModel({this.id,required this.name,required this.image,this.brand,this.size,this.colorFamily,required this.price,this.qty,this.selected,this.orderId});
+  String? status;
+  CartModel({this.id,required this.name,required this.image,this.brand,this.size,this.colorFamily,this.price,this.qty,this.selected,this.orderId,this.status});
 }

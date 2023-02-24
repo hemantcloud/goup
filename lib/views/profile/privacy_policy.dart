@@ -46,9 +46,9 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   child: Container(
-                    width: 30.0,
-                    height: 30.0,
-                    child: SvgPicture.asset('assets/icons/back.svg'),
+                    width: 20.0,
+                    height: 20.0,
+                    child: SvgPicture.asset('assets/icons/back.svg',),
                   ),
                 ),
                 Expanded(

@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:goup/models/cart_model.dart';
+import 'package:goup/views/profile/customers_feedback_delivery.dart';
+import 'package:goup/views/profile/customers_feedback_pickedup.dart';
+import 'package:goup/views/profile/scan_code.dart';
 import 'package:goup/views/utilities/utilities.dart';
+import 'package:page_transition/page_transition.dart';
 
 class OrderRequests extends StatefulWidget {
   const OrderRequests({Key? key}) : super(key: key);
@@ -17,13 +21,16 @@ class OrderRequests extends StatefulWidget {
 class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateMixin {
   late TabController _tabBarController;
   final List<CartModel> productList = [
-    CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', price: '280', brand: 'Nike',size: '38'),
-    CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', price: '455', size: '38',colorFamily: 'Military Green', selected: false),
-    CartModel(name: 'Nike military green sneaker', image: 'assets/images/product_image.png', price: '280', size: '38',colorFamily: 'Military Green', selected: false),
-    CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', price: '866', colorFamily: 'Military Green', selected: false),
-    CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', price: '789', brand: 'Nike', selected: false),
-    CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', price: '455', size: '38',colorFamily: 'Military Green', selected: false),
-    CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', price: '280', brand: 'Nike',size: '38', selected: false),
+    CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', status: 'Pending', orderId: 'SN#185415185'),
+    CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', status: 'Recieved', orderId: 'SN#185415185'),
+    CartModel(name: 'Nike military green sneaker', image: 'assets/images/product_image.png', status: 'Delivered', orderId: 'SN#185415185'),
+    CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', status: 'Recieved', orderId: 'SN#185415185'),
+    CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', status: 'Pending', orderId: 'SN#185415185'),
+    CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', status: 'Delivered', orderId: 'SN#185415185'),
+    CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', status: 'Recieved', orderId: 'SN#185415185'),
+    CartModel(name: 'Nike military green sneaker', image: 'assets/images/product_image.png', status: 'Pending', orderId: 'SN#185415185'),
+    CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', status: 'Cancelled', orderId: 'SN#185415185'),
+    CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', status: 'Delivered', orderId: 'SN#185415185'),
   ];
   @override
   void initState() {
@@ -67,8 +74,8 @@ class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateM
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   child: Container(
-                    width: 24.0,
-                    height: 24.0,
+                    width: 20.0,
+                    height: 20.0,
                     child: SvgPicture.asset('assets/icons/back.svg',),
                   ),
                 ),
@@ -169,33 +176,87 @@ class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateM
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      productList[index].name.toString(),
+                                      productList[index].orderId.toString(),
                                       style: const TextStyle(
-                                        fontSize: 15.0,
                                         fontWeight: FontWeight.w600,
                                         color: AppColors.black,
                                       ),
                                       overflow: TextOverflow.ellipsis,
-
                                     ),
                                     Text(
-                                      'f dsf dsf',
+                                      'Scan the QR code for delivery.',
                                       style: const TextStyle(
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.w500,
+                                        fontSize: 10.0,
                                         color: AppColors.text4,
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),
+                                    Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(text: 'Status: ',style: TextStyle(color: AppColors.text4,fontSize: 12.0)),
+                                          TextSpan(
+                                            text: productList[index].status == 'Pending'
+                                            ? 'Pending' : productList[index].status == 'Delivered'
+                                            ? 'Delivered' : productList[index].status == 'Cancelled'
+                                            ? 'Cancelled' : productList[index].status == 'Recieved'
+                                            ? 'Recieved' : '',
+                                            style: TextStyle(
+                                              color: productList[index].status == 'Pending'
+                                                  ? Color(0xFFFF5F05) : productList[index].status == 'Delivered'
+                                                  ? Color(0xFF17AF2F) : productList[index].status == 'Cancelled'
+                                                  ? AppColors.red2 : productList[index].status == 'Recieved'
+                                                  ? AppColors.primary : Colors.transparent,
+                                              fontSize: 12.0
+                                            )
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(5.0),
-                                child: Image.asset(
-                                  'assets/images/qrcode.png'
-                                ),
+                                // padding: EdgeInsets.all(5.0),
+                                padding: EdgeInsets.all(10.0),
+                                child:
+                                    productList[index].status == 'Delivered' ?
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            type: PageTransitionType.rightToLeftWithFade,
+                                            alignment: Alignment.topCenter,
+                                            duration: Duration(milliseconds: 1000),
+                                            isIos: true,
+                                            child: CustomersFeedbackDelivery(),
+                                          ),
+                                        );
+                                      },
+                                      child: SvgPicture.asset(
+                                          'assets/icons/right_arrow.svg'
+                                      ),
+                                    ) :
+                                    InkWell(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          PageTransition(
+                                            type: PageTransitionType.rightToLeftWithFade,
+                                            alignment: Alignment.topCenter,
+                                            duration: Duration(milliseconds: 1000),
+                                            isIos: true,
+                                            child: ScanCode(),
+                                          ),
+                                        );
+                                      },
+                                      child: Image.asset(
+                                        'assets/images/qrcode.png',
+                                        width: 40.0,
+                                      ),
+                                    ),
                               ),
                             ],
                           ),
@@ -207,7 +268,7 @@ class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateM
                 ListView.builder(
                   shrinkWrap: true,
                   physics: const ScrollPhysics(),
-                  itemCount:  productList.length,
+                  itemCount: productList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       padding: EdgeInsets.fromLTRB(0.0,10.0,10.0,10.0),
@@ -240,69 +301,66 @@ class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateM
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      productList[index].name.toString(),
+                                      productList[index].orderId.toString(),
                                       style: const TextStyle(
-                                        fontSize: 15.0,
                                         fontWeight: FontWeight.w600,
                                         color: AppColors.black,
                                       ),
                                       overflow: TextOverflow.ellipsis,
-
                                     ),
                                     Text(
-                                      'f dsf dsf',
+                                      'Scan the QR code for delivery.',
                                       style: const TextStyle(
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.w500,
+                                        fontSize: 10.0,
                                         color: AppColors.text4,
                                       ),
                                       overflow: TextOverflow.ellipsis,
                                       maxLines: 1,
                                     ),
+                                    Text.rich(
+                                      TextSpan(
+                                        children: [
+                                          TextSpan(text: 'Status: ',style: TextStyle(color: AppColors.text4,fontSize: 12.0)),
+                                          TextSpan(
+                                              text: productList[index].status == 'Pending'
+                                                  ? 'Pending' : productList[index].status == 'Delivered'
+                                                  ? 'Delivered' : productList[index].status == 'Cancelled'
+                                                  ? 'Cancelled' : productList[index].status == 'Recieved'
+                                                  ? 'Recieved' : '',
+                                              style: TextStyle(
+                                                  color: productList[index].status == 'Pending'
+                                                      ? Color(0xFFFF5F05) : productList[index].status == 'Delivered'
+                                                      ? Color(0xFF17AF2F) : productList[index].status == 'Cancelled'
+                                                      ? AppColors.red2 : productList[index].status == 'Recieved'
+                                                      ? AppColors.primary : Colors.transparent,
+                                                  fontSize: 12.0
+                                              )
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
                               Container(
-                                padding: EdgeInsets.all(5.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                                  color: Color(0xFFF0F0F9),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        int count = productList[index].qty!;
-                                        count++;
-                                        productList[index].qty = count;
-                                        setState(() {});
-                                      },
-                                      child: SvgPicture.asset(
-                                          'assets/icons/cart_increment.svg',width: 20.0,height: 20.0
+                                // padding: EdgeInsets.all(5.0),
+                                padding: EdgeInsets.all(10.0),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.rightToLeftWithFade,
+                                        alignment: Alignment.topCenter,
+                                        duration: Duration(milliseconds: 1000),
+                                        isIos: true,
+                                        child: CustomersFeedbackPickedup(),
                                       ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(vertical: 5.0),
-                                      child: Text(
-                                          productList[index].qty.toString(),
-                                          style: TextStyle(color: AppColors.black)
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        int count = productList[index].qty!;
-                                        if(count > 0){
-                                          count--;
-                                        }
-                                        productList[index].qty = count;
-                                        setState(() {});
-                                      },
-                                      child: SvgPicture.asset(
-                                          'assets/icons/cart_decrement.svg',width: 20.0,height: 20.0
-                                      ),
-                                    ),
-                                  ],
+                                    );
+                                  },
+                                  child: SvgPicture.asset(
+                                      'assets/icons/right_arrow.svg'
+                                  ),
                                 ),
                               ),
                             ],

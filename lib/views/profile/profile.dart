@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:goup/models/product_model.dart';
+import 'package:goup/views/profile/categories.dart';
+import 'package:goup/views/profile/create_posting.dart';
 import 'package:goup/views/profile/edit_profile.dart';
 import 'package:goup/views/profile/profile_settings.dart';
 import 'package:goup/views/utilities/utilities.dart';
@@ -44,8 +46,6 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
   }
   @override
   Widget build(BuildContext context) {
-    final aboutMe = 'Lorem ipsum dolor sit consectetur adipiscing elit, sed do eiusmod tempor labore et dolore joika magna yueh threas tempor.';
-    final aboutMeResult = aboutMe.split(' ').take(102).join(' ');
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
@@ -93,10 +93,54 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                               alignment: Alignment.topCenter,
                               duration: Duration(milliseconds: 1000),
                               isIos: true,
+                              child: CreatePosting(),
+                            ),
+                          );
+                        },
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        child: Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(right: 10.0),
+                          child: Icon(Icons.post_add),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              alignment: Alignment.topCenter,
+                              duration: Duration(milliseconds: 1000),
+                              isIos: true,
+                              child: Categories(),
+                            ),
+                          );
+                        },
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        child: Container(
+                          alignment: Alignment.center,
+                          margin: EdgeInsets.only(right: 10.0),
+                          child: Icon(Icons.category),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              alignment: Alignment.topCenter,
+                              duration: Duration(milliseconds: 1000),
+                              isIos: true,
                               child: EditProfile(),
                             ),
                           );
                         },
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
                         child: Container(
                           alignment: Alignment.center,
                           margin: EdgeInsets.only(right: 10.0),
@@ -116,6 +160,8 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
                             ),
                           );
                         },
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
                         child: Container(
                           alignment: Alignment.center,
                           // margin: EdgeInsets.all(10.0),
@@ -132,7 +178,7 @@ class _ProfileState extends State<Profile> with TickerProviderStateMixin {
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.fromLTRB(20.0,20.0,20.0,20.0),
+        padding: EdgeInsets.fromLTRB(20.0,20.0,20.0,0.0),
         child: Container(
           width: MediaQuery.of(context).size.width,
           height: MediaQuery.of(context).size.height,

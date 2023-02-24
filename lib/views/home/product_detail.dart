@@ -1,12 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:goup/models/product_size_model.dart';
 import 'package:goup/models/product_detail_model.dart';
-import 'package:goup/views/authentication/login.dart';
+import 'package:goup/views/home/buy_now.dart';
 import 'package:goup/views/home/home_slider.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
@@ -605,20 +603,34 @@ class _ProductDetailState extends State<ProductDetail> {
           children: [
             Expanded(
               flex: 1,
-              child: Container(
-                width: MediaQuery.of(context).size.width * 0.33,
-                height: 50.0,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                ),
-                child: Text(
-                  // 'Buy at \$280',
-                  'Buy now',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: Colors.white,
+              child: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.rightToLeftWithFade,
+                      alignment: Alignment.topCenter,
+                      duration: Duration(milliseconds: 1000),
+                      isIos: true,
+                      child: BuyNow(),
+                    ),
+                  );
+                },
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 0.33,
+                  height: 50.0,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                  ),
+                  child: Text(
+                    // 'Buy at \$280',
+                    'Buy now',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -684,7 +696,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                 child: Container(
                                   color: Color(0xFFEAEAEA),
                                   height: 1.0,
-                                  child: null,
                                 ),
                               ),
                             ],

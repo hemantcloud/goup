@@ -75,9 +75,9 @@ class _ProfileQuickViewState extends State<ProfileQuickView> with TickerProvider
                   highlightColor: Colors.transparent,
                   splashColor: Colors.transparent,
                   child: Container(
-                    width: 24.0,
-                    height: 24.0,
-                    child: SvgPicture.asset('assets/icons/back.svg',color: AppColors.black,),
+                    width: 20.0,
+                    height: 20.0,
+                    child: SvgPicture.asset('assets/icons/back.svg',),
                   ),
                 ),
                 InkWell(

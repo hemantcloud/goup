@@ -5,15 +5,15 @@ import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
 
-class TermsAndCondition extends StatefulWidget {
-  const TermsAndCondition({Key? key}) : super(key: key);
+class AboutUs extends StatefulWidget {
+  const AboutUs({Key? key}) : super(key: key);
 
   @override
-  State<TermsAndCondition> createState() => _TermsAndConditionState();
+  State<AboutUs> createState() => _AboutUsState();
 }
 
-class _TermsAndConditionState extends State<TermsAndCondition> {
-  String? privacypolicydata = "Lorem  ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan in nisl nisi scelerisque eu ultrices vitae. Iaculis eu non diam phasellus vestibulum lorem sed. Duis convallis convallis tellus id interdum velit laoreet id donec. Commodo quis imperdiet massa tincidunt nunc pulvinar.Lectus mauris ultrices eros in cursus. Id eu nisl nunc mi ipsum faucibus. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. Senectus et netus et malesuada fames ac turpis.Congue mauris rhoncus aenean vel elit scelerisque mauris. Et magnis dis parturient montes nascetur ridiculus. Ipsum dolor sit amet consectetur adipiscing elit duis tristique sollicitudin. Ultrices vitae auctor eu augue ut. Gravida neque convallis a cras semper auctor. Id diam maecenas ultricies mi eget mauris pharetra et. Volutpat commodo sed egestas egestas fringilla.";
+class _AboutUsState extends State<AboutUs> {
+  String? privacypolicydata = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan in nisl nisi scelerisque eu ultrices vitae. Iaculis eu non diam phasellus vestibulum lorem sed. Duis convallis convallis tellus id interdum velit laoreet id donec. Commodo quis imperdiet massa tincidunt nunc pulvinar.Lectus mauris ultrices eros in cursus. Id eu nisl nunc mi ipsum faucibus. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. Senectus et netus et malesuada fames ac turpis.Congue mauris rhoncus aenean vel elit scelerisque mauris. Et magnis dis parturient montes nascetur ridiculus. Ipsum dolor sit amet consectetur adipiscing elit duis tristique sollicitudin. Ultrices vitae auctor eu augue ut. Gravida neque convallis a cras semper auctor. Id diam maecenas ultricies mi eget mauris pharetra et. Volutpat commodo sed egestas egestas fringilla.";
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +48,14 @@ class _TermsAndConditionState extends State<TermsAndCondition> {
                   child: Container(
                     width: 20.0,
                     height: 20.0,
-                    child: SvgPicture.asset('assets/icons/back.svg',),
+                    child: SvgPicture.asset('assets/icons/back.svg'),
                   ),
                 ),
                 Expanded(
                   flex: 1,
                   child: Center(
                     child: Text(
-                      'Terms & Conditions',
+                      'About Us',
                       style: TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 18.0,
