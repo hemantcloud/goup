@@ -435,10 +435,11 @@ class _CreatePostingState extends State<CreatePosting> {
             ),
             Container(
               margin: EdgeInsets.only(top: 20.0),
+              alignment: Alignment.centerLeft,
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     InkWell(
                       onTap: () {
@@ -459,21 +460,96 @@ class _CreatePostingState extends State<CreatePosting> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
+                                /*Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      Image.file(
+                                        File(imageFileList![index].path),
+                                        width: 100.0,
+                                        height: 100.0,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ],
+                                  ),
+                                ),*/
+                                /*Stack(
+                                  alignment: Alignment.topRight,
+                                  children: [
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                      ),
+                                      child: Image.file(
+                                        File(imageFileList![index].path),
+                                        width: 100.0,
+                                        height: 100.0,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    SvgPicture.asset('assets/icons/cross2.svg'),
+                                  ],
+                                ),*/
                                 Container(
-                                  child: Expanded(
-                                    flex: 1,
-                                    child: Stack(
-                                      children: [
-                                        Image.file(
-                                          File(imageFileList![index].path),
-                                          width: 100.0,
-                                          height: 100.0,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ],
+                                  width: 100.0,
+                                  height: 100.0,
+                                  margin: EdgeInsets.only(left: 10.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                    image: DecorationImage(
+                                      image: FileImage(File(imageFileList![index].path)),
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        right: -4.0,
+                                        top: -4.0,
+                                        child: Container(
+                                          padding: EdgeInsets.all(4.0),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                                            color: Colors.white
+                                          ),
+                                          child: SvgPicture.asset('assets/icons/cross2.svg'),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
+                                /*Container(
+                                  width: 100.0,
+                                  height: 100.0,
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                    image: DecorationImage(
+                                      image: FileImage(
+                                        File(imageFileList![index].path),
+                                      ),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  child: Stack(
+                                    children: [
+                                      Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        child: Container(
+                                          padding: EdgeInsets.all(20.0),
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                                          ),
+                                          width: 12.0,
+                                          height: 12.0,
+                                          child: SvgPicture.asset('assets/icons/cross2.svg'),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),*/
                               ],
                             );
                           }
