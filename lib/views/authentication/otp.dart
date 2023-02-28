@@ -10,6 +10,7 @@ import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:goup/utitlities/utitlities.dart';
 import 'package:goup/views/authentication/interests.dart';
 import 'package:goup/views/authentication/login.dart';
 import 'package:goup/views/authentication/personal_info.dart';
@@ -26,7 +27,7 @@ class Otp extends StatefulWidget {
 }
 
 class _OtpState extends State<Otp> {
-  TextEditingController otpController = TextEditingController();
+  OtpFieldController otpController = OtpFieldController();
   String countrycode = "+91";
   String? pin;
   late CountdownTimerController controller;
@@ -124,15 +125,17 @@ class _OtpState extends State<Otp> {
             Container(
               margin: EdgeInsets.only(top: 40.0),
               child: OTPTextField(
+                controller: otpController,
                 length: 4,
                 width: MediaQuery.of(context).size.width,
                 fieldWidth: 50,
                 style: TextStyle(fontSize: 17),
                 textFieldAlignment: MainAxisAlignment.spaceAround,
                 fieldStyle: FieldStyle.box,
-                onCompleted: (pin) {
-                  print("Completed: " + pin);
-                  print(pin.runtimeType);
+                onCompleted: (otp) {
+                  print("Completed: " + otp);
+                  pin = otp;
+                  print(otp.runtimeType);
                 },
               ),
             ),
@@ -184,16 +187,25 @@ class _OtpState extends State<Otp> {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onTap: () {
-          Navigator.push(
-            context,
-            PageTransition(
-              type: PageTransitionType.rightToLeftWithFade,
-              alignment: Alignment.topCenter,
-              duration: Duration(milliseconds: 1000),
-              isIos: true,
-              child: PersonalInfo(),
-            ),
-          );
+          print('pin is ------------$pin');
+          print('type is ------------${pin.runtimeType}');
+          /*if (otp.isEmpty) {
+            Utilities().toast("Please Enter Otp.");
+          } else if (otp.length < 4 || otp.length > 4) {
+            print('otp is ----------${otp.toString()}');
+            Utilities().toast("Please Enter Valid Otp.");
+          }else {
+            Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.rightToLeftWithFade,
+                alignment: Alignment.topCenter,
+                duration: Duration(milliseconds: 1000),
+                isIos: true,
+                child: PersonalInfo(),
+              ),
+            );
+          }*/
         },
         child: Container(
           margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),

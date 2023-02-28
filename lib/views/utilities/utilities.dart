@@ -17,6 +17,14 @@ class AppColors {
   static const Color red = Colors.red; // AppColors.red
   static const Color red2 = Color(0xFFE84F41); // AppColors.red2
   static const Color yellow = Color(0xFFFBBC04); // AppColors.yellow
+  static const myGradient = LinearGradient(
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+    colors: [
+      Color(0xFFFD6180),
+      Color(0xFFFE8155),
+    ],
+  );
 }
 class AppDate{
   String toDate(String bigTime) {

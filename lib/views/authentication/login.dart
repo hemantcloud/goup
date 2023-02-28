@@ -3,7 +3,7 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:goup/utitlities/utitlities.dart';
 import 'package:goup/views/authentication/otp.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
@@ -17,6 +17,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   var countrycodecontroller = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
   String countrycode = "+91";
   @override
   Widget build(BuildContext context) {
@@ -111,6 +112,7 @@ class _LoginState extends State<Login> {
                         showFlag: true,
                         onChanged: (e) {
                           countrycode = e.dialCode.toString();
+                          print('countrycode is ------------$countrycode');
                         },
                         initialSelection: 'IN',
                         favorite: ['+91', 'IN'],
@@ -123,13 +125,14 @@ class _LoginState extends State<Login> {
                   Expanded(
                     flex: 1,
                     child: TextFormField(
+                      controller: phoneController,
                       keyboardType: TextInputType.phone,
                       style: const TextStyle(fontSize: 14.0, color: AppColors.black),
-                      buildCounter: (BuildContext context,
-                          {required int currentLength,
-                            int? maxLength,
-                            required bool isFocused}) =>
-                      null,
+                      buildCounter: (BuildContext context,{
+                        required int currentLength,
+                        int? maxLength,
+                        required bool isFocused
+                      }) => null,
                       inputFormatters: [
                         FilteringTextInputFormatter.allow(RegExp("[0-9]")),
                       ],
@@ -156,16 +159,23 @@ class _LoginState extends State<Login> {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onTap: () {
-          Navigator.push(
-            context,
-            PageTransition(
-              type: PageTransitionType.rightToLeftWithFade,
-              alignment: Alignment.topCenter,
-              duration: Duration(milliseconds: 1000),
-              isIos: true,
-              child: Otp(),
-            ),
-          );
+          String phone = phoneController.text;
+          if (phone.isEmpty) {
+            Utilities().toast("Please Enter Phone Number.");
+          } else if (phone.length < 10 || phone.length > 10) {
+            Utilities().toast("Please Enter Valid Phone Number.");
+          }else {
+            Navigator.push(
+              context,
+              PageTransition(
+                type: PageTransitionType.rightToLeftWithFade,
+                alignment: Alignment.topCenter,
+                duration: Duration(milliseconds: 1000),
+                isIos: true,
+                child: Otp(),
+              ),
+            );
+          }
         },
         child: Container(
           margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),

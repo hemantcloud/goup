@@ -3,7 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:goup/views/home/confirm_order.dart';
+import 'package:goup/views/home/payment_method.dart';
 import 'package:goup/views/profile/basket_selected.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
@@ -15,6 +17,19 @@ class BuyNow extends StatefulWidget {
 }
 
 class _BuyNowState extends State<BuyNow> {
+  bool homedeliverystatus = true;
+  bool officedeliverystatus = false;
+  bool companydeliverystatus = false;
+  String deliverystatus = 'Home Delivery';
+  String? paymentMethod = 'Credit Card';
+  getData(String status){
+    deliverystatus = status;
+    setState(() {});
+  }
+  getData2(String str){
+    paymentMethod = str;
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -75,14 +90,21 @@ class _BuyNowState extends State<BuyNow> {
                               ),
                             ),
                             Text(
-                              'Home delivery',
+                              deliverystatus,
                               style: TextStyle(color: AppColors.text4),
                             ),
                           ],
                         ),
                       ),
                       SizedBox(width: 10.0),
-                      SvgPicture.asset('assets/icons/change.svg'),
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () => deliveryLocationBottomSheet(context,getData),
+                        child: SvgPicture.asset(
+                            'assets/icons/change.svg'
+                        ),
+                      ),
                     ],
                   ),
                   Row(
@@ -113,14 +135,32 @@ class _BuyNowState extends State<BuyNow> {
                               ),
                             ),
                             Text(
-                              'Credit Card',
+                              paymentMethod.toString(),
                               style: TextStyle(color: AppColors.text4),
                             ),
                           ],
                         ),
                       ),
                       SizedBox(width: 10.0),
-                      SvgPicture.asset('assets/icons/change.svg'),
+                      InkWell(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              alignment: Alignment.topCenter,
+                              duration: Duration(milliseconds: 1000),
+                              isIos: true,
+                              child: PaymentMethod(getData: getData2,paymentMethod: paymentMethod),
+                            ),
+                          );
+                        },
+                        child: SvgPicture.asset(
+                            'assets/icons/change.svg'
+                        ),
+                      ),
                     ],
                   ),
                   Row(
@@ -275,6 +315,225 @@ class _BuyNowState extends State<BuyNow> {
         ),
       ),
     );
+  }
+  deliveryLocationBottomSheet(BuildContext context,Function GetData) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                child: Wrap(
+                  children: [
+                    Container(
+                      constraints: BoxConstraints(
+                        maxHeight: double.infinity,
+                      ),
+                      margin: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25.0),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 30.0),
+                          const Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.all(20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Home Delivery',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: AppColors.black
+                                        ),
+                                      ),
+                                      Text(
+                                        '#24 House, 5th street, South block Ryadh, UAE',
+                                        style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: AppColors.text4
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 40.0),
+                                FlutterSwitch(
+                                  width: 50.0,
+                                  height: 25.0,
+                                  toggleSize: 25.0,
+                                  value: homedeliverystatus,
+                                  activeText: '',
+                                  activeColor: AppColors.primary,
+                                  inactiveColor: Color(0xFFE5E5E6),
+                                  inactiveText: '',
+                                  borderRadius: 30.0,
+                                  padding: 2.0,
+                                  duration: Duration(milliseconds: 250),
+                                  showOnOff: true,
+                                  onToggle: (val) {
+                                    if(homedeliverystatus == false){
+                                      homedeliverystatus = val;
+                                    }
+                                    officedeliverystatus = false;
+                                    companydeliverystatus = false;
+                                    this.getData("Home Delivery");
+                                    setState(() {});
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.all(20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Office Delivery',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: AppColors.black
+                                        ),
+                                      ),
+                                      Text(
+                                        '#24 House, 5th street, South block Ryadh, UAE',
+                                        style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: AppColors.text4
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 40.0),
+                                FlutterSwitch(
+                                  width: 50.0,
+                                  height: 25.0,
+                                  toggleSize: 25.0,
+                                  value: officedeliverystatus,
+                                  activeText: '',
+                                  activeColor: AppColors.primary,
+                                  inactiveColor: Color(0xFFE5E5E6),
+                                  inactiveText: '',
+                                  borderRadius: 30.0,
+                                  padding: 2.0,
+                                  duration: Duration(milliseconds: 250),
+                                  showOnOff: true,
+                                  onToggle: (val) {
+                                    if(officedeliverystatus == false){
+                                      officedeliverystatus = val;
+                                    }
+                                    homedeliverystatus = false;
+                                    companydeliverystatus = false;
+                                    this.getData("Office Delivery");
+                                    setState(() {});
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            padding: EdgeInsets.all(20.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Company Delivery',
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            color: AppColors.black
+                                        ),
+                                      ),
+                                      Text(
+                                        '#24 House, 5th street, South block Ryadh, UAE',
+                                        style: TextStyle(
+                                            fontSize: 12.0,
+                                            color: AppColors.text4
+                                        ),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(width: 40.0),
+                                FlutterSwitch(
+                                  width: 50.0,
+                                  height: 25.0,
+                                  toggleSize: 25.0,
+                                  value: companydeliverystatus,
+                                  activeText: '',
+                                  activeColor: AppColors.primary,
+                                  inactiveColor: Color(0xFFE5E5E6),
+                                  inactiveText: '',
+                                  borderRadius: 30.0,
+                                  padding: 2.0,
+                                  duration: Duration(milliseconds: 250),
+                                  showOnOff: true,
+                                  onToggle: (val) {
+                                    if(companydeliverystatus == false){
+                                      companydeliverystatus = val;
+                                    }
+                                    homedeliverystatus = false;
+                                    officedeliverystatus = false;
+                                    this.getData("Company Delivery");
+                                    setState(() {});
+                                  },
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        });
   }
 
 }

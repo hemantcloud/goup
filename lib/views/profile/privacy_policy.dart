@@ -76,7 +76,9 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
           children: [
             privacypolicydata == null || privacypolicydata == '' ? Container() : Html(
               data: privacypolicydata,
-              defaultTextStyle: TextStyle(color: Color(0xFF828282)),
+              style: {
+                privacypolicydata.toString() : Style(color: Color(0xFF828282))
+              },
             ),
           ],
         ),

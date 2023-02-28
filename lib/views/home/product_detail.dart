@@ -29,6 +29,7 @@ class _ProductDetailState extends State<ProductDetail> {
     ProductDetailModel(image: 'assets/images/product_image2.png'),
     ProductDetailModel(image: 'assets/images/product_image4.png'),
   ];
+  String? productDetailSelected = '';
   final List<ProductSizeModel> productSizes = [
     ProductSizeModel(size: 45),
     ProductSizeModel(size: 55),
@@ -389,20 +390,31 @@ class _ProductDetailState extends State<ProductDetail> {
                             itemCount: productDetailList.length,
                             itemBuilder: (context, index) {
                               return
-                                Container(
-                                  width: 70.0,
-                                  // height: 100.0,
-                                  alignment: Alignment.centerLeft,
-                                  decoration: BoxDecoration(
-                                    // color: Color(0xFFDAF9EA),
-                                    borderRadius: BorderRadius.all(Radius.circular(8.0)),
-                                    // color: Colors.red,
-                                  ),
-                                  margin: EdgeInsets.only(right: 10.0),
-                                  child:
-                                  Image.asset(
-                                    productDetailList[index].image.toString(),
-                                    width: 100.0,
+                                InkWell(
+                                  onTap: () {
+                                    productDetailSelected = productDetailList[index].image;
+                                    setState(() {});
+                                  },
+                                  child: Container(
+                                    width: 77.5,
+                                    // height: 100.0,
+                                    alignment: Alignment.centerLeft,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(Radius.circular(8.0)),
+                                      border: Border.all(
+                                          color: productDetailSelected == productDetailList[index].image ?
+                                          AppColors.primary : Colors.transparent,
+                                          style: BorderStyle.solid,
+                                          width: productDetailSelected == productDetailList[index].image ?
+                                          2 : 0,
+                                      ),
+                                    ),
+                                    margin: EdgeInsets.only(right: 10.0),
+                                    child: Image.asset(
+                                      productDetailList[index].image.toString(),
+                                      width: 100.0,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 );
                             }),

@@ -31,6 +31,7 @@ class _OnboardingState extends State<Onboarding> {
             SizedBox(
               height: MediaQuery.of(context).size.height * 0.8,
               child: PageView(
+
                 controller: _controller,
                 onPageChanged: (index) {
                   _currentIndex = index;

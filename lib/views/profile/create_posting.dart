@@ -508,13 +508,20 @@ class _CreatePostingState extends State<CreatePosting> {
                                       Positioned(
                                         right: -4.0,
                                         top: -4.0,
-                                        child: Container(
-                                          padding: EdgeInsets.all(4.0),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.all(Radius.circular(50.0)),
-                                            color: Colors.white
+                                        child: InkWell(
+                                          onTap: (){
+                                            imageFileList!.removeAt(index);
+                                            // print(index);
+                                            setState(() {});
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.all(4.0),
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(Radius.circular(50.0)),
+                                              color: Colors.white
+                                            ),
+                                            child: SvgPicture.asset('assets/icons/cross2.svg'),
                                           ),
-                                          child: SvgPicture.asset('assets/icons/cross2.svg'),
                                         ),
                                       ),
                                     ],
@@ -620,22 +627,15 @@ class _CreatePostingState extends State<CreatePosting> {
   }
   // pick Image multiple camera
   Future pickImageMultipleCam(BuildContext context, imageSource) async {
+    Navigator.pop(context);
     // imageFileList!.clear();
     if (!kIsWeb) {
       // may be android
       final selectedImage = await imagePicker.pickImage(source: imageSource);
       if (selectedImage == null) {
         print('+++++++++null');
-        Navigator.pop(context);
       } else {
         imageFileList!.add(selectedImage);
-        /* print('remove this . ------');
-          if(imageFileList!.contains(selectedImages)){
-            imageFileList!.remove(selectedImages);
-          }*/
-        print('image count ------------(android) ' +
-            imageFileList!.length.toString());
-        Navigator.pop(context);
       }
       setState(() {});
     } else if (kIsWeb) {
@@ -643,40 +643,25 @@ class _CreatePostingState extends State<CreatePosting> {
       final selectedImage = await imagePicker.pickImage(source: imageSource);
       if (selectedImage == null) {
         print('+++++++++null');
-        Navigator.pop(context);
       } else {
         imageFileList!.add(selectedImage);
-        /* print('remove this . ------');
-          if(imageFileList!.contains(selectedImages)){
-            imageFileList!.remove(selectedImages);
-          }*/
-        print('image count ------------(ios) ' +
-            imageFileList!.length.toString());
-        Navigator.pop(context);
       }
       setState(() {});
     }
   }
   // pick Image multiple
   Future pickImageMultiple(BuildContext context, imageSource) async {
+    Navigator.pop(context);
     // imageFileList!.clear();
     if (!kIsWeb) {
       // may be android
       final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
       if (selectedImages == null) {
         print('+++++++++null');
-        Navigator.pop(context);
       } else {
         if (selectedImages.isNotEmpty) {
           imageFileList!.addAll(selectedImages);
-          /* print('remove this . ------');
-          if(imageFileList!.contains(selectedImages)){
-            imageFileList!.remove(selectedImages);
-          }*/
         }
-        print('image count ------------(android) ' +
-            imageFileList!.length.toString());
-        Navigator.pop(context);
       }
       setState(() {});
     } else if (kIsWeb) {
@@ -684,14 +669,10 @@ class _CreatePostingState extends State<CreatePosting> {
       final List<XFile>? selectedImages = await imagePicker.pickMultiImage();
       if (selectedImages == null) {
         print('+++++++++null');
-        Navigator.pop(context);
       } else {
         if (selectedImages.isNotEmpty) {
           imageFileList!.addAll(selectedImages);
         }
-        print('image count ------------(ios) ' +
-            imageFileList!.length.toString());
-        Navigator.pop(context);
       }
       setState(() {});
     }

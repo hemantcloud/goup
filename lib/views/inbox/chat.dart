@@ -24,7 +24,7 @@ class _ChatState extends State<Chat> {
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        toolbarHeight: 60.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         shape: RoundedRectangleBorder(
@@ -33,7 +33,7 @@ class _ChatState extends State<Chat> {
           ),
         ),
         flexibleSpace: Padding(
-          padding: EdgeInsets.only(top: 40.0, bottom: 10.0),
+          padding: EdgeInsets.only(top: 25.0, bottom: 0.0),
           child: Container(
             height: 60.0,
             margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
@@ -101,7 +101,7 @@ class _ChatState extends State<Chat> {
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.fromLTRB(20.0, 20.0, 20.0, 78.0),
         child: Column(
           children: [
             Row(
@@ -136,7 +136,7 @@ class _ChatState extends State<Chat> {
                 ),
               ],
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -169,7 +169,7 @@ class _ChatState extends State<Chat> {
                 ),
               ],
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -201,7 +201,7 @@ class _ChatState extends State<Chat> {
                 ),
               ],
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,7 +267,7 @@ class _ChatState extends State<Chat> {
                 ),
               ],
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -300,7 +300,7 @@ class _ChatState extends State<Chat> {
                 ),
               ],
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             InkWell(
               highlightColor: Colors.transparent,
               splashColor: Colors.transparent,
@@ -337,7 +337,7 @@ class _ChatState extends State<Chat> {
                 ],
               ),
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -403,7 +403,7 @@ class _ChatState extends State<Chat> {
                 ),
               ],
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -436,7 +436,7 @@ class _ChatState extends State<Chat> {
                 ),
               ],
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -468,7 +468,7 @@ class _ChatState extends State<Chat> {
                 ),
               ],
             ),
-            const SizedBox(height: 20.0),
+            const SizedBox(height: 10.0),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -501,7 +501,7 @@ class _ChatState extends State<Chat> {
                 ),
               ],
             ),
-            const SizedBox(height: 10.0),
+            const SizedBox(height: 20.0),
           ],
         ),
       ),
@@ -526,15 +526,15 @@ class _ChatState extends State<Chat> {
                 cursorColor: AppColors.secondary,
                 decoration: InputDecoration(
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0),bottomLeft: Radius.circular(20.0)),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0),bottomLeft: Radius.circular(8.0)),
                     borderSide: BorderSide(color: Colors.transparent),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0),bottomLeft: Radius.circular(20.0)),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0),bottomLeft: Radius.circular(8.0)),
                     borderSide: BorderSide(color: Colors.transparent),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0),bottomLeft: Radius.circular(20.0)),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8.0),bottomLeft: Radius.circular(8.0)),
                     borderSide: BorderSide(color: Colors.transparent),
                   ),
                   fillColor: AppColors.bg,
@@ -551,7 +551,7 @@ class _ChatState extends State<Chat> {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 12.0,vertical: 16.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(topRight: Radius.circular(20.0),bottomRight: Radius.circular(20.0)),
+                borderRadius: BorderRadius.only(topRight: Radius.circular(8.0),bottomRight: Radius.circular(8.0)),
                 color: AppColors.bg,
               ),
               child: SvgPicture.asset(

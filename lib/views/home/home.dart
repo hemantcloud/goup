@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
   bool _isFav = false;
   final List<ProductModel> productList = [
     ProductModel(name: 'iPhone 13 Pro Max', image: 'assets/images/product_image.jpg', price: '758', isFav: false),
-    ProductModel(name: 'Double monk sho', image: 'assets/images/product_image5.png', price: '758', isFav: false),
+    ProductModel(name: 'Double monk shoe', image: 'assets/images/product_image5.png', price: '758', isFav: false),
     ProductModel(name: 'Macbook Pro 13 in', image: 'assets/images/product_image6.png', price: '758', isFav: false),
     ProductModel(name: 'Apple watch 7 se', image: 'assets/images/product_image7.png', price: '758', isFav: false),
   ];
@@ -82,7 +82,7 @@ class _HomeState extends State<Home> {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 InkWell(
-                  onTap: () => filterBottomSheet(context),
+                  onTap: () => formBottomSheet(context),
                   child: SvgPicture.asset(
                     'assets/icons/filter.svg',
                     width: 23.0,
@@ -255,14 +255,14 @@ class _HomeState extends State<Home> {
                                   setState(() {});
                                 },
                                 child:
-                                productList[index].isFav == false
-                                    ? Padding(
+                                productList[index].isFav == false ?
+                                Padding(
                                   padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
                                   child: SvgPicture.asset(
                                     'assets/icons/empty_heart.svg',
                                   ),
-                                )
-                                    : Padding(
+                                ) :
+                                Padding(
                                   padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
                                   child: SvgPicture.asset(
                                     'assets/icons/filled_heart.svg',

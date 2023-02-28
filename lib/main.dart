@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:goup/views/authentication/interests.dart';
 import 'package:goup/views/dashboard.dart';
 import 'package:goup/views/splash.dart';
+import 'package:goup/views/splash2.dart';
 import 'package:goup/views/test.dart';
 import 'package:goup/views/utilities/utilities.dart';
 
@@ -28,7 +29,8 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Sora',
       ),
-      home: Splash(),
+      // home: Splash(),
+      home: Splash2(),
       // home: Interests(),
       // home: Test(),
       // home: Dashboard(bottomIndex: 0),

@@ -320,20 +320,25 @@ class _PaymentMethodState extends State<PaymentMethod> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
-        height: 50.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: AppColors.primary,
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        ),
-        child: Text(
-          'Confirm Payment',
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 16.0
-            // fontWeight: FontWeight.w700,
+      bottomNavigationBar: InkWell(
+        onTap: () => Navigator.of(context).pop(),
+        highlightColor: Colors.transparent,
+        splashColor: Colors.transparent,
+        child: Container(
+          margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
+          height: 50.0,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          child: Text(
+            'Confirm Payment',
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0
+              // fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ),

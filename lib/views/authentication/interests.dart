@@ -128,7 +128,9 @@ class _InterestsState extends State<Interests> {
                     MultiSelectCard(value: 'Auto & Vehicles', label: 'Auto & Vehicles'),
                     MultiSelectCard(value: 'Entertainment', label: 'Entertainment'),
                   ],
-                  onChange: (allSelectedItems, selectedItem) {}),
+                  onChange: (allSelectedItems, selectedItem) {
+                    print('allSelectedItems is $allSelectedItems');
+                  }),
             ),
           ],
         ),
