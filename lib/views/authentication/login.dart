@@ -3,8 +3,11 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:goup/utitlities/utitlities.dart';
 import 'package:goup/views/authentication/otp.dart';
+import 'package:goup/views/home/product_detail.dart';
+import 'package:goup/views/home/profile_quick_view.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -21,6 +24,8 @@ class _LoginState extends State<Login> {
   String countrycode = "+91";
   @override
   Widget build(BuildContext context) {
+    var categorList;
+    var productList;
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
@@ -28,7 +33,7 @@ class _LoginState extends State<Login> {
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        // toolbarHeight: 80.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
@@ -82,7 +87,7 @@ class _LoginState extends State<Login> {
                 'Welcome, you can choose how to log in',
                 style: TextStyle(
                     fontSize: 20.0,
-                    fontWeight: FontWeight.w600,
+                    // fontWeight: FontWeight.w600,
                     color: AppColors.black
                 ),
               ),
@@ -178,8 +183,8 @@ class _LoginState extends State<Login> {
           }
         },
         child: Container(
-          margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
-          height: 60.0,
+          margin: EdgeInsets.fromLTRB(16.0,0.0,16.0,16.0),
+          height: 50.0,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: AppColors.primary,
@@ -196,4 +201,5 @@ class _LoginState extends State<Login> {
       ),
     );
   }
+
 }

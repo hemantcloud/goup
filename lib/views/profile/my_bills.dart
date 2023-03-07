@@ -42,7 +42,7 @@ class _MyBillsState extends State<MyBills>{
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        // toolbarHeight: 80.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         flexibleSpace: Padding(
@@ -75,7 +75,7 @@ class _MyBillsState extends State<MyBills>{
                       'My Bills',
                       style: TextStyle(
                         color: AppColors.black,
-                        fontSize: 20.0
+                        fontSize: 18.0
                       ),
                     ),
                   ),
@@ -189,7 +189,7 @@ class _MyBillsState extends State<MyBills>{
             child: Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(text: 'Transaction History ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0),),
+                  TextSpan(text: 'Transaction History ',style: TextStyle(fontSize: 18.0),),
                   TextSpan(text: '(This month)'),
                 ],
               ),
@@ -275,114 +275,88 @@ class _MyBillsState extends State<MyBills>{
           ),
         ],
       ),
-      bottomSheet: InkWell(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        onTap: () {
-          /*Navigator.push(
-            context,
-            PageTransition(
-              type: PageTransitionType.rightToLeftWithFade,
-              alignment: Alignment.topCenter,
-              duration: Duration(milliseconds: 1000),
-              isIos: true,
-              child: Otp(),
-            ),
-          );*/
-        },
-        child: Container(
-          padding: EdgeInsets.fromLTRB(10.0,20.0,10.0,0.0),
-          height: 90.0,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10.0),
-                topRight: Radius.circular(10.0)
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.secondary,
-                offset: Offset(0.0, 3.0),
-                blurRadius: 40.0,
-                spreadRadius: 0.0,
-              ),
-            ],
+      bottomSheet: Container(
+        padding: EdgeInsets.fromLTRB(10.0,20.0,10.0,0.0),
+        height: 90.0,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: AppColors.white,
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(10.0),
+              topRight: Radius.circular(10.0)
           ),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 50.0,
-                    height: 50.0,
-                    padding: EdgeInsets.all(10.0),
-                    child: Image.asset('assets/icons/gender_selected.png'),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Total amount',
-                          style: TextStyle(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.text4,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                        Text(
-                          '\$12489',
-                          style: const TextStyle(
-                            fontSize: 20.0,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.black,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-
-                        ),
-                      ],
-                    ),
-                  ),
-                  InkWell(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () {
-                      /*Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.rightToLeftWithFade,
-                          alignment: Alignment.topCenter,
-                          duration: Duration(milliseconds: 1000),
-                          isIos: true,
-                          child: Otp(),
-                        ),
-                      );*/
-                    },
-                    child: Container(
-                      height: 50.0,
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                      ),
-                      child: Text(
-                        'Withdrawal',
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.secondary,
+              offset: Offset(0.0, 3.0),
+              blurRadius: 40.0,
+              spreadRadius: 0.0,
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  width: 50.0,
+                  height: 50.0,
+                  padding: EdgeInsets.all(10.0),
+                  child: Image.asset('assets/icons/gender_selected.png'),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Total amount',
                         style: TextStyle(
-                          color: Colors.white,
+                          fontSize: 16.0,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.text4,
                         ),
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      Text(
+                        '\$12489',
+                        style: const TextStyle(
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.black,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+
+                      ),
+                    ],
+                  ),
+                ),
+                InkWell(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
+                  onTap: () {
+                  },
+                  child: Container(
+                    height: 50.0,
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                    ),
+                    child: Text(
+                      'Withdrawal',
+                      style: TextStyle(
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );

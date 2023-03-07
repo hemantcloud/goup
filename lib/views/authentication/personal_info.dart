@@ -1,16 +1,14 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:goup/utitlities/utitlities.dart';
 import 'package:goup/views/authentication/interests.dart';
-import 'package:goup/views/authentication/otp.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:flutter_multi_select_items/flutter_multi_select_items.dart';
 
 class PersonalInfo extends StatefulWidget {
   const PersonalInfo({Key? key}) : super(key: key);
@@ -24,6 +22,8 @@ class _PersonalInfoState extends State<PersonalInfo> {
   String? gender;
   DateTime selectedDate = DateTime.now();
   var dateController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -51,7 +51,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        // toolbarHeight: 80.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
@@ -59,7 +59,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
           child: Container(
             height: 60.0,
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.transparent, width: 0.0),
               borderRadius: BorderRadius.circular(5.0),
@@ -105,7 +105,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 'Please fill with your personal information',
                 style: TextStyle(
                     fontSize: 20.0,
-                    fontWeight: FontWeight.w600,
+                    // fontWeight: FontWeight.w600,
                     color: AppColors.black
                 ),
               ),
@@ -118,7 +118,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
               ),
             ),
             Container(
-              height: 60.0,
+              height: 50.0,
               margin: EdgeInsets.only(top: 40.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
@@ -135,6 +135,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                   Expanded(
                     flex: 1,
                     child: TextFormField(
+                      controller: nameController,
                       style: const TextStyle(fontSize: 14.0, color: AppColors.black),
                       cursorColor: AppColors.primary,
                       decoration: myInputDecoration('Full name'),
@@ -162,6 +163,7 @@ class _PersonalInfoState extends State<PersonalInfo> {
                     Expanded(
                       flex: 1,
                       child: TextFormField(
+                        controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         style: const TextStyle(fontSize: 14.0, color: AppColors.black),
                         cursorColor: AppColors.primary,
@@ -172,43 +174,47 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 20.0),
+            InkWell(
+              onTap: () {
+                _selectDate(context);
+              },
               child: Container(
-                height: 50.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: Color(0xFFEAEAEB),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.11,
-                      alignment: Alignment.center,
-                      child: SvgPicture.asset('assets/icons/child.svg',width: 16.0),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: TextFormField(
-                        controller: dateController,
-                        keyboardType: TextInputType.datetime,
-                        style: const TextStyle(fontSize: 14.0, color: AppColors.black),
-                        cursorColor: AppColors.primary,
-                        decoration: myInputDecoration('Date of Birth'),
+                margin: EdgeInsets.only(top: 20.0),
+                child: Container(
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Color(0xFFEAEAEB),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.11,
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset('assets/icons/child.svg',width: 16.0),
                       ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _selectDate(context);
-                      },
-                      child: Container(
+                      Expanded(
+                        flex: 1,
+                        child: TextFormField(
+                          readOnly: true,
+                          onTap: () {
+                            _selectDate(context);
+                          },
+                          controller: dateController,
+                          keyboardType: TextInputType.datetime,
+                          style: const TextStyle(fontSize: 14.0, color: AppColors.black),
+                          cursorColor: AppColors.primary,
+                          decoration: myInputDecoration('DOB like 15-07-1997'),
+                        ),
+                      ),
+                      Container(
                         width: MediaQuery.of(context).size.width * 0.15,
                         alignment: Alignment.center,
                         child: SvgPicture.asset('assets/icons/date.svg',width: 18.0),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -252,15 +258,48 @@ class _PersonalInfoState extends State<PersonalInfo> {
                 ),
               ),
             ),*/
-            Container(
-              margin: EdgeInsets.only(top: 20.0),
-              child: InkWell(
-                onTap: () {
-                  isClicked = !isClicked;
-                  setState(() {});
-                },
-                child: Image.asset(
-                  'assets/images/gender_bar.png'
+            InkWell(
+              onTap: () {
+                isClicked = !isClicked;
+                setState(() {});
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 20.0),
+                child: Container(
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Color(0xFFEAEAEB),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.11,
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset('assets/icons/gender.svg',width: 16.0),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: TextFormField(
+                          readOnly: true,
+                          onTap: () {
+                            isClicked = !isClicked;
+                            setState(() {});
+                          },
+                          keyboardType: TextInputType.datetime,
+                          style: const TextStyle(fontSize: 14.0, color: AppColors.black),
+                          cursorColor: AppColors.primary,
+                          decoration: myInputDecoration('Sex'),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset('assets/icons/down.svg',width: 18.0),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -342,34 +381,52 @@ class _PersonalInfoState extends State<PersonalInfo> {
           ],
         ),
       ),
-      bottomNavigationBar: InkWell(
-        splashColor: Colors.transparent,
-        highlightColor: Colors.transparent,
-        onTap: () {
-          Navigator.push(
-            context,
-            PageTransition(
-              type: PageTransitionType.rightToLeftWithFade,
-              alignment: Alignment.topCenter,
-              duration: Duration(milliseconds: 1000),
-              isIos: true,
-              child: Interests(),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            String name = nameController.text;
+            String email = emailController.text;
+            String date = dateController.text;
+            if (name.isEmpty) {
+              Utilities().toast("Please Enter Full name.");
+            } else if (email.isEmpty) {
+              Utilities().toast("Please Enter Email address.");
+            } else if (!email.contains('@gmail.com')) {
+              Utilities().toast("Please Enter Valid Email Address.");
+            } else if (date.isEmpty) {
+              Utilities().toast("Please Select DOB.");
+            } else if (gender == null) {
+              Utilities().toast("Please select Sex.");
+            }else {
+              Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.rightToLeftWithFade,
+                  alignment: Alignment.topCenter,
+                  duration: Duration(milliseconds: 1000),
+                  isIos: true,
+                  child: Interests(),
+                ),
+              );
+            }
+          },
+          child: Container(
+            margin: EdgeInsets.fromLTRB(16.0,0.0,16.0,16.0),
+            height: 50.0,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: AppColors.primary,
+              borderRadius: BorderRadius.all(Radius.circular(10.0)),
             ),
-          );
-        },
-        child: Container(
-          margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
-          height: 60.0,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: AppColors.primary,
-            borderRadius: BorderRadius.all(Radius.circular(10.0)),
-          ),
-          child: Text(
-            'Confirm',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
+            child: Text(
+              'Confirm',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ),

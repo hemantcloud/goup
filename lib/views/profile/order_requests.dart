@@ -53,7 +53,7 @@ class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateM
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        // toolbarHeight: 80.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.white,
         flexibleSpace: Padding(
@@ -61,7 +61,7 @@ class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateM
           child: Container(
             height: 60.0,
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            // padding: EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.transparent, width: 0.0),
               borderRadius: BorderRadius.circular(5.0),
@@ -86,7 +86,7 @@ class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateM
                       'Order Requests',
                       style: TextStyle(
                           color: AppColors.black,
-                          fontSize: 20.0
+                          fontSize: 18.0
                       ),
                     ),
                   ),
@@ -129,7 +129,7 @@ class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateM
             child: Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(text: 'Sales History ',style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18.0),),
+                  TextSpan(text: 'Sales History ',style: TextStyle(fontSize: 18.0),),
                   TextSpan(text: '(This month)',style: TextStyle(color: AppColors.secondary)),
                 ],
               ),
@@ -178,7 +178,7 @@ class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateM
                                     Text(
                                       productList[index].orderId.toString(),
                                       style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
+                                        // fontWeight: FontWeight.w600,
                                         color: AppColors.black,
                                       ),
                                       overflow: TextOverflow.ellipsis,
@@ -217,46 +217,27 @@ class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateM
                                   ],
                                 ),
                               ),
-                              Container(
-                                // padding: EdgeInsets.all(5.0),
-                                padding: EdgeInsets.all(10.0),
-                                child:
-                                    productList[index].status == 'Delivered' ?
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.rightToLeftWithFade,
-                                            alignment: Alignment.topCenter,
-                                            duration: Duration(milliseconds: 1000),
-                                            isIos: true,
-                                            child: CustomersFeedbackDelivery(),
-                                          ),
-                                        );
-                                      },
-                                      child: SvgPicture.asset(
-                                          'assets/icons/right_arrow.svg'
-                                      ),
-                                    ) :
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          PageTransition(
-                                            type: PageTransitionType.rightToLeftWithFade,
-                                            alignment: Alignment.topCenter,
-                                            duration: Duration(milliseconds: 1000),
-                                            isIos: true,
-                                            child: ScanCode(),
-                                          ),
-                                        );
-                                      },
-                                      child: Image.asset(
-                                        'assets/images/qrcode.png',
-                                        width: 40.0,
-                                      ),
-                                    ),
+                              InkWell(
+                                onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.rightToLeftWithFade,
+                                          alignment: Alignment.topCenter,
+                                          duration: Duration(milliseconds: 1000),
+                                          isIos: true,
+                                          child: productList[index].status == 'Delivered' ?
+                                          CustomersFeedbackDelivery() : ScanCode(),
+                                        ),
+                                      );
+                                    },
+                                child: Container(
+                                  padding: EdgeInsets.all(10.0),
+                                  // color: AppColors.red,
+                                  child: productList[index].status == 'Delivered' ?
+                                          SvgPicture.asset('assets/icons/right_arrow.svg') :
+                                          Image.asset('assets/images/qrcode.png',width: 40.0,),
+                                ),
                               ),
                             ],
                           ),
@@ -303,7 +284,7 @@ class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateM
                                     Text(
                                       productList[index].orderId.toString(),
                                       style: const TextStyle(
-                                        fontWeight: FontWeight.w600,
+                                        // fontWeight: FontWeight.w600,
                                         color: AppColors.black,
                                       ),
                                       overflow: TextOverflow.ellipsis,
@@ -342,22 +323,21 @@ class _OrderRequestsState extends State<OrderRequests> with TickerProviderStateM
                                   ],
                                 ),
                               ),
-                              Container(
-                                // padding: EdgeInsets.all(5.0),
-                                padding: EdgeInsets.all(10.0),
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      PageTransition(
-                                        type: PageTransitionType.rightToLeftWithFade,
-                                        alignment: Alignment.topCenter,
-                                        duration: Duration(milliseconds: 1000),
-                                        isIos: true,
-                                        child: CustomersFeedbackPickedup(),
-                                      ),
-                                    );
-                                  },
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    PageTransition(
+                                      type: PageTransitionType.rightToLeftWithFade,
+                                      alignment: Alignment.topCenter,
+                                      duration: Duration(milliseconds: 1000),
+                                      isIos: true,
+                                      child: CustomersFeedbackPickedup(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(10.0),
                                   child: SvgPicture.asset(
                                       'assets/icons/right_arrow.svg'
                                   ),

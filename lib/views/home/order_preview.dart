@@ -1,22 +1,21 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+
+// ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
-import 'package:goup/views/home/confirm_order.dart';
 import 'package:goup/views/home/payment_method.dart';
-import 'package:goup/views/profile/basket_selected.dart';
+import 'package:goup/views/profile/select_product.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
-class BuyNow extends StatefulWidget {
-  const BuyNow({Key? key}) : super(key: key);
+class OrderPreview extends StatefulWidget {
+  const OrderPreview({Key? key}) : super(key: key);
 
   @override
-  State<BuyNow> createState() => _BuyNowState();
+  State<OrderPreview> createState() => _OrderPreviewState();
 }
 
-class _BuyNowState extends State<BuyNow> {
+class _OrderPreviewState extends State<OrderPreview> {
   bool homedeliverystatus = true;
   bool officedeliverystatus = false;
   bool companydeliverystatus = false;
@@ -216,7 +215,7 @@ class _BuyNowState extends State<BuyNow> {
       ),
       bottomSheet: Container(
         height: 200.0,
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -289,7 +288,7 @@ class _BuyNowState extends State<BuyNow> {
                     alignment: Alignment.topCenter,
                     duration: Duration(milliseconds: 1000),
                     isIos: true,
-                    child: BasketSelected(),
+                    child: SelectProduct(),
                   ),
                 );
               },

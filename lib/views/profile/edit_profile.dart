@@ -1,7 +1,10 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 
+import 'dart:io';
+
 import 'package:country_code_picker/country_code_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +12,8 @@ import 'package:flutter_switch/flutter_switch.dart';
 import 'package:goup/views/authentication/interests.dart';
 import 'package:goup/views/authentication/otp.dart';
 import 'package:goup/views/utilities/utilities.dart';
+import 'package:image_cropper/image_cropper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_multi_select_items/flutter_multi_select_items.dart';
@@ -47,6 +52,11 @@ class _EditProfileState extends State<EditProfile> {
   bool twitterstatus = false;
   bool instastatus = false;
   bool linkedinstatus = false;
+  final ImagePicker imagePicker = ImagePicker();
+  XFile? photoController;
+  XFile? imageFile;
+  var bytes;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,7 +66,7 @@ class _EditProfileState extends State<EditProfile> {
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        // toolbarHeight: 80.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
@@ -64,7 +74,7 @@ class _EditProfileState extends State<EditProfile> {
           child: Container(
             height: 60.0,
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            // padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.transparent, width: 0.0),
               borderRadius: BorderRadius.circular(5.0),
@@ -89,7 +99,7 @@ class _EditProfileState extends State<EditProfile> {
                       'Edit Profile',
                       style: TextStyle(
                         color: AppColors.black,
-                        fontSize: 20.0
+                        fontSize: 18.0
                       ),
                     ),
                   ),
@@ -104,21 +114,36 @@ class _EditProfileState extends State<EditProfile> {
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                decoration: BoxDecoration(
-                  // color: Color(0xFFE6F2EA),
-                    borderRadius: BorderRadius.all(Radius.circular(60.0)),
-                ),
-                child: CircleAvatar(
-                  // backgroundColor: Colors.transparent,
-                  maxRadius: 50,
-                  // radius: 60,
-                  // backgroundImage: AssetImage('assets/images/profile.png'),
-                  backgroundImage: AssetImage('assets/images/select_profile_image.png'),
-                  // backgroundColor: Color(0xFFEAEAEB),
-                  backgroundColor: Colors.transparent,
+            InkWell(
+              onTap: () {
+                bottoms_Profileimage(context);
+              },
+              child: Align(
+                alignment: Alignment.center,
+                child: Container(
+                  decoration: BoxDecoration(
+                    // color: Color(0xFFE6F2EA),
+                      borderRadius: BorderRadius.all(Radius.circular(60.0)),
+                  ),
+                  child:
+                      photoController == null ?
+                      CircleAvatar(
+                        // backgroundColor: Colors.transparent,
+                        maxRadius: 50,
+                        // radius: 60,
+                        backgroundImage: AssetImage('assets/images/select_profile_image.png'),
+                        // backgroundColor: Color(0xFFEAEAEB),
+                        backgroundColor: Colors.transparent,
+                      ) :
+                      CircleAvatar(
+                        // backgroundColor: Colors.transparent,
+                        maxRadius: 50,
+                        // radius: 60,
+                        // backgroundImage: AssetImage('assets/images/select_profile_image.png'),
+                        backgroundImage: FileImage(File(photoController!.path)),
+                        // backgroundColor: Color(0xFFEAEAEB),
+                        backgroundColor: Colors.transparent,
+                      ),
                 ),
               ),
             ),
@@ -209,43 +234,47 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
             ),
-            Container(
-              margin: EdgeInsets.only(top: 20.0),
+            InkWell(
+              onTap: () {
+                _selectDate(context);
+              },
               child: Container(
-                height: 50.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: Color(0xFFEAEAEB),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.11,
-                      alignment: Alignment.center,
-                      child: SvgPicture.asset('assets/icons/child.svg',width: 16.0),
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: TextFormField(
-                        controller: dateController,
-                        keyboardType: TextInputType.datetime,
-                        style: const TextStyle(fontSize: 14.0, color: AppColors.black),
-                        cursorColor: AppColors.primary,
-                        decoration: myInputDecoration('Date of Birth'),
+                margin: EdgeInsets.only(top: 20.0),
+                child: Container(
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Color(0xFFEAEAEB),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.11,
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset('assets/icons/child.svg',width: 16.0),
                       ),
-                    ),
-                    InkWell(
-                      onTap: () {
-                        _selectDate(context);
-                      },
-                      child: Container(
+                      Expanded(
+                        flex: 1,
+                        child: TextFormField(
+                          readOnly: true,
+                          onTap: () {
+                            _selectDate(context);
+                          },
+                          controller: dateController,
+                          keyboardType: TextInputType.datetime,
+                          style: const TextStyle(fontSize: 14.0, color: AppColors.black),
+                          cursorColor: AppColors.primary,
+                          decoration: myInputDecoration('Date of Birth'),
+                        ),
+                      ),
+                      Container(
                         width: MediaQuery.of(context).size.width * 0.15,
                         alignment: Alignment.center,
                         child: SvgPicture.asset('assets/icons/date.svg',width: 18.0),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -289,15 +318,48 @@ class _EditProfileState extends State<EditProfile> {
                 ),
               ),
             ),*/
-            Container(
-              margin: EdgeInsets.only(top: 20.0),
-              child: InkWell(
-                onTap: () {
-                  isClicked = !isClicked;
-                  setState(() {});
-                },
-                child: Image.asset(
-                    'assets/images/gender_bar.png'
+            InkWell(
+              onTap: () {
+                isClicked = !isClicked;
+                setState(() {});
+              },
+              child: Container(
+                margin: EdgeInsets.only(top: 20.0),
+                child: Container(
+                  height: 50.0,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.0),
+                    color: Color(0xFFEAEAEB),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.11,
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset('assets/icons/gender.svg',width: 16.0),
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: TextFormField(
+                          readOnly: true,
+                          onTap: () {
+                            isClicked = !isClicked;
+                            setState(() {});
+                          },
+                          keyboardType: TextInputType.datetime,
+                          style: const TextStyle(fontSize: 14.0, color: AppColors.black),
+                          cursorColor: AppColors.primary,
+                          decoration: myInputDecoration('Sex'),
+                        ),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.15,
+                        alignment: Alignment.center,
+                        child: SvgPicture.asset('assets/icons/down.svg',width: 18.0),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -572,8 +634,8 @@ class _EditProfileState extends State<EditProfile> {
           );*/
         },
         child: Container(
-          margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
-          height: 60.0,
+          margin: EdgeInsets.fromLTRB(16.0,0.0,16.0,16.0),
+          height: 50.0,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: AppColors.primary,
@@ -600,5 +662,98 @@ class _EditProfileState extends State<EditProfile> {
       ),
       border: InputBorder.none,
     );
+  }
+  /// Image pick Bottom dialog.............
+  bottoms_Profileimage(BuildContext context){
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Wrap(children: [
+            ListTile(
+              leading: Icon(Icons.camera_alt),
+              title: Text('Camera'),
+              onTap: () {
+                //Navigator.pop(context);
+                pickImage(context,ImageSource.camera);
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.photo_album),
+              title: Text('Gallery'),
+              onTap: () {
+                // Navigator.pop(context);
+                pickImage(context,ImageSource.gallery);
+              },
+            ),
+          ]);
+        });
+  }
+  ///Image picker...............
+  Future pickImage(BuildContext context,imageSource) async {
+    Navigator.pop(context);
+    if(!kIsWeb){
+      var image = await imagePicker.pickImage(
+        source: imageSource,
+        imageQuality: 10,
+      );
+      if (image == null) {
+        print('+++++++++null');
+      } else {
+        photoController = XFile(image.path);
+        _cropImage(File(photoController!.path));
+      }
+      setState((){});
+    }else if(kIsWeb){
+      var image = await imagePicker.pickImage(source: imageSource,
+          imageQuality: 10);
+      if (image == null) {
+        print('+++++++++null');
+      } else {
+        photoController = XFile(image.path);
+        _cropImage(File(photoController!.path));
+      }
+      setState((){});
+      print('image path is ${bytes}');
+    }
+  }
+  _cropImage(File imgFile) async {
+    final croppedFile = await ImageCropper().cropImage(
+        sourcePath: imgFile.path,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+          // CropAspectRatioPreset.square,
+          // CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          // CropAspectRatioPreset.ratio4x3,
+          // CropAspectRatioPreset.ratio16x9
+        ] : [
+          CropAspectRatioPreset.original,
+          // CropAspectRatioPreset.square,
+          // CropAspectRatioPreset.ratio3x2,
+          // CropAspectRatioPreset.ratio4x3,
+          // CropAspectRatioPreset.ratio5x3,
+          // CropAspectRatioPreset.ratio5x4,
+          // CropAspectRatioPreset.ratio7x5,
+          // CropAspectRatioPreset.ratio16x9
+        ],
+        uiSettings: [AndroidUiSettings(
+            toolbarTitle: "Image Cropper",
+            activeControlsWidgetColor: AppColors.primary,
+            toolbarColor: AppColors.primary,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+          IOSUiSettings(
+            title: "Image Cropper",
+          )
+        ]);
+    if (croppedFile != null) {
+      imageCache.clear();
+      setState(() {
+        imageFile = XFile(croppedFile.path);
+        photoController = imageFile;
+      });
+      // reload();
+    }
   }
 }

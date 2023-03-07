@@ -3,26 +3,26 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:goup/views/home/product_detail.dart';
+import 'package:goup/views/home/profile_quick_view.dart';
+import 'package:goup/views/utilities/utilities.dart';
 import 'package:goup/models/accrount_type_list_select_model.dart';
 import 'package:goup/models/category_list_select_model.dart';
 import 'package:goup/models/category_model.dart';
 import 'package:goup/models/delivery_list_select_model.dart';
 import 'package:goup/models/product_model.dart';
-import 'package:goup/test.dart';
-import 'package:goup/views/home/product_detail.dart';
-import 'package:goup/views/home/profile_quick_view.dart';
-import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+import 'package:flutter_sticky_widgets/flutter_sticky_widgets.dart';
+
+class Home2 extends StatefulWidget {
+  const Home2({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => _HomeState();
+  State<Home2> createState() => _Home2State();
 }
 
-class _HomeState extends State<Home> {
+class _Home2State extends State<Home2> {
   Random random = Random();
   int _randomNumber1 = 0;
   void _generateRandomNumber1() {
@@ -41,13 +41,13 @@ class _HomeState extends State<Home> {
       }
     });
   }
-  final List<ProductModel> productlist = [
+  final List<ProductModel> productList = [
     ProductModel(name: 'iPhone 13 Pro Max', image: 'assets/images/product_image.jpg', price: '758', isFav: false),
     ProductModel(name: 'Double monk shoe', image: 'assets/images/product_image5.png', price: '758', isFav: false),
     ProductModel(name: 'Macbook Pro 13 in', image: 'assets/images/product_image6.png', price: '758', isFav: false),
     ProductModel(name: 'Apple watch 7 se', image: 'assets/images/product_image7.png', price: '758', isFav: false),
   ];
-  final List<CategoryModel> categorlist = [
+  final List<CategoryModel> categorList = [
     CategoryModel(name: 'Fashion', image: 'assets/icons/fashion.svg', primarycolor: '#2DD4BF',secondarycolor: '#DAF9EA'),
     CategoryModel(name: 'Electronics', image: 'assets/icons/electonics.svg', primarycolor: '#FB923C', secondarycolor: '#FFF4E5'),
     CategoryModel(name: 'Appliances', image: 'assets/icons/appliances.svg', primarycolor: '#34D399', secondarycolor: '#E7FFF4'),
@@ -55,19 +55,19 @@ class _HomeState extends State<Home> {
     CategoryModel(name: 'Furniture', image: 'assets/icons/furniture.svg', primarycolor: '#60A5FA', secondarycolor: '#E8F2FF'),
   ];
   String? categorylistselected;
-  List<CategoryListSelectModel>? categorylistSelect = [
+  List<CategoryListSelectModel>? categoryListSelect = [
     CategoryListSelectModel(id: 1, name: 'Category 1'),
     CategoryListSelectModel(id: 2, name: 'Category 2'),
     CategoryListSelectModel(id: 3, name: 'Category 3'),
   ];
   String? accrountTypelistselected;
-  List<AccrountTypeListSelectModel>? accrountTypelistSelect = [
+  List<AccrountTypeListSelectModel>? accrountTypeListSelect = [
     AccrountTypeListSelectModel(id: 1, name: 'Accournt Type 1'),
     AccrountTypeListSelectModel(id: 2, name: 'Accournt Type 2'),
     AccrountTypeListSelectModel(id: 3, name: 'Accournt Type 3'),
   ];
   String? deliverylistselected;
-  List<DeliveryListSelectModel>? deliverylistSelect = [
+  List<DeliveryListSelectModel>? deliveryListSelect = [
     DeliveryListSelectModel(id: 1, name: 'Delivery 1'),
     DeliveryListSelectModel(id: 2, name: 'Delivery 2'),
     DeliveryListSelectModel(id: 3, name: 'Delivery 3'),
@@ -76,92 +76,81 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
-          // statusBarColor: Colors.white,
-          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-          statusBarBrightness: Brightness.light, // For iOS (dark icons)
-        ),
-        // toolbarHeight: 60.0,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        flexibleSpace: Padding(
-          padding: EdgeInsets.only(top: 30.0, bottom: 0.0),
-          child: Container(
-            height: 60.0,
-            margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-            // padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.transparent, width: 0.0),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                InkWell(
-                  onTap: () => filterBottomSheet(context),
-                  child: SvgPicture.asset(
-                    'assets/icons/filter.svg',
-                    width: 23.0,
-                    color: AppColors.secondary,
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset('assets/icons/location.svg'),
-                      SizedBox(width: 10.0),
-                      Text(
-                        'Add location',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: AppColors.secondary,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.rightToLeftWithFade,
-                        alignment: Alignment.topCenter,
-                        duration: Duration(milliseconds: 1000),
-                        isIos: true,
-                        child: ProfileQuickView(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: Color(0xFFE6F2EA),
-                      borderRadius: BorderRadius.all(Radius.circular(60.0)),
-                      border: Border.all(color: Color(0xFF27E19E),width: 2)
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(60.0),
-                      child: Image.asset(
-                        'assets/images/profile.png',
-                        width: 40.0,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-        elevation: 0.0,
-      ),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(16.0,0.0,16.0,16.0),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
+            Padding(
+              padding: EdgeInsets.only(top: 10.0, bottom: 0.0),
+              child: Container(
+                height: 60.0,
+                // margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+                // padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                decoration: BoxDecoration(
+                  border: Border.all(color: Colors.transparent, width: 0.0),
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: () => filterBottomSheet(context),
+                      child: SvgPicture.asset(
+                        'assets/icons/filter.svg',
+                        width: 23.0,
+                        color: AppColors.secondary,
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset('assets/icons/location.svg'),
+                          SizedBox(width: 10.0),
+                          Text(
+                            'Add location2',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              color: AppColors.secondary,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.rightToLeftWithFade,
+                            alignment: Alignment.topCenter,
+                            duration: Duration(milliseconds: 1000),
+                            isIos: true,
+                            child: ProfileQuickView(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Color(0xFFE6F2EA),
+                            borderRadius: BorderRadius.all(Radius.circular(60.0)),
+                            border: Border.all(color: Color(0xFF27E19E),width: 2)
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(60.0),
+                          child: Image.asset(
+                            'assets/images/profile.png',
+                            width: 40.0,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             SvgPicture.asset('assets/icons/search_bar.svg'),
             Container(
               margin: EdgeInsets.only(top: 20.0),
@@ -170,10 +159,10 @@ class _HomeState extends State<Home> {
               child: ListView.builder(
                   shrinkWrap: true,
                   scrollDirection: Axis.horizontal,
-                  itemCount: categorlist.length,
+                  itemCount: categorList.length,
                   itemBuilder: (context, index) {
-                    final primarycolorsplitted = categorlist[index].primarycolor!.split('#');
-                    final secondarycolorsplitted = categorlist[index].secondarycolor!.split('#');
+                    final primarycolorsplitted = categorList[index].primarycolor!.split('#');
+                    final secondarycolorsplitted = categorList[index].secondarycolor!.split('#');
                     String primaryC = '0xFF${primarycolorsplitted[1].toLowerCase()}';
                     String secondaryC = '0xFF${secondarycolorsplitted[1].toLowerCase()}';
                     return Row(
@@ -192,10 +181,10 @@ class _HomeState extends State<Home> {
                               ),
                               padding: EdgeInsets.all(10.0),
                               child:
-                              SvgPicture.asset(categorlist[index].image.toString(),width: 20.0,color: Color(int.parse(primaryC)),),
+                              SvgPicture.asset(categorList[index].image.toString(),width: 20.0,color: Color(int.parse(primaryC)),),
                             ),
                             Text(
-                              categorlist[index].name.toString(),
+                              categorList[index].name.toString(),
                               style: TextStyle(
                                 fontSize: 10.0,
                                 color: AppColors.secondary,
@@ -208,169 +197,162 @@ class _HomeState extends State<Home> {
                     );
                   }),
             ),
-            InkWell(
-              onTap: () {
-                Navigator.push(context, MaterialPageRoute(builder: ((context) => Test())));
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 25.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 25.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Suggested for you',
+                    style: TextStyle(
+                      color: AppColors.black,
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Text(
+                    'See all',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            GridView.builder(
+              shrinkWrap: true,
+              physics: ScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 30 / 2,
+                childAspectRatio: 7 / 11,
+              ),
+              itemCount: productList.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Column(
                   children: [
-                    Text(
-                      'Suggested for you',
-                      style: TextStyle(
-                        color: AppColors.black,
-                        fontSize: 18.0,
-                        fontWeight: FontWeight.w600,
+                    Container(
+                      height: 165.0,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10.0),
+                        color: Colors.white,
+                        border: Border.all(
+                          width: 0.5,
+                          color: Color(0xFF9CA3AF),
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      child: Stack(
+                        children: [
+                          Container(
+                            // padding: EdgeInsets.only(top: 30.0,left: 10.0,right: 10.0),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.rightToLeftWithFade,
+                                    alignment: Alignment.topCenter,
+                                    duration: Duration(milliseconds: 1000),
+                                    isIos: true,
+                                    child: ProductDetail(),
+                                  ),
+                                );
+                              },
+                              child: Image.asset(
+                                productList[index].image.toString(),
+                                height: 160.0,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 10,
+                            left: 0,
+                            child: InkWell(
+                              onTap: () {
+                                formBottomSheet(context);
+                                // setState(() {});
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                                child: SvgPicture.asset(
+                                  'assets/icons/menu.svg',
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 10,
+                            right: 0,
+                            child: InkWell(
+                              onTap: () {
+                                // if(productList[index].isFav == false){
+                                //   productList[index].isFav = true;
+                                // }else{
+                                //   productList[index].isFav = false;
+                                // }
+                                productList[index].isFav = !productList[index].isFav!;
+                                setState(() {});
+                              },
+                              child:
+                              productList[index].isFav == false ?
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                                child: SvgPicture.asset(
+                                  'assets/icons/empty_heart.svg',
+                                ),
+                              ) :
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
+                                child: SvgPicture.asset(
+                                  'assets/icons/filled_heart.svg',
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    Text(
-                      'See all',
-                      style: TextStyle(
-                        color: AppColors.primary,
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Row(
+                            // crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: Text(
+                                  productList[index].name.toString(),
+                                  style: TextStyle(
+                                    color: AppColors.black,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                ),
+                              ),
+                              SvgPicture.asset('assets/icons/shopping_cart.svg'),
+                            ],
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              '\$ ${productList[index].price.toString()}',
+                              style: TextStyle(
+                                  color: AppColors.primary,
+                                  fontWeight: FontWeight.w700
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
-                ),
-              ),
-            ),
-            Expanded(
-              child: GridView.builder(
-                shrinkWrap: true,
-                physics: ScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 30 / 2,
-                  childAspectRatio: 7 / 11,
-                ),
-                itemCount: productlist.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Column(
-                    children: [
-                      Container(
-                        height: 165.0,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.white,
-                          border: Border.all(
-                            width: 0.5,
-                            color: Color(0xFF9CA3AF),
-                            style: BorderStyle.solid,
-                          ),
-                        ),
-                        child: Stack(
-                          children: [
-                            Container(
-                              // padding: EdgeInsets.only(top: 30.0,left: 10.0,right: 10.0),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.rightToLeftWithFade,
-                                      alignment: Alignment.topCenter,
-                                      duration: Duration(milliseconds: 1000),
-                                      isIos: true,
-                                      child: ProductDetail(),
-                                    ),
-                                  );
-                                },
-                                child: Image.asset(
-                                  productlist[index].image.toString(),
-                                  height: 160.0,
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 10,
-                              left: 0,
-                              child: InkWell(
-                                onTap: () {
-                                  formBottomSheet(context);
-                                  // setState(() {});
-                                },
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/menu.svg',
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Positioned(
-                              top: 10,
-                              right: 0,
-                              child: InkWell(
-                                onTap: () {
-                                  // if(productList[index].isFav == false){
-                                  //   productList[index].isFav = true;
-                                  // }else{
-                                  //   productList[index].isFav = false;
-                                  // }
-                                  productlist[index].isFav = !productlist[index].isFav!;
-                                  setState(() {});
-                                },
-                                child:
-                                productlist[index].isFav == false ?
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/empty_heart.svg',
-                                  ),
-                                ) :
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/filled_heart.svg',
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              // crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: Text(
-                                    productlist[index].name.toString(),
-                                    style: TextStyle(
-                                      color: AppColors.black,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                    maxLines: 2,
-                                  ),
-                                ),
-                                SvgPicture.asset('assets/icons/shopping_cart.svg'),
-                              ],
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Text(
-                                '\$ ${productlist[index].price.toString()}',
-                                style: TextStyle(
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.w700
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
+                );
+              },
             ),
           ],
         ),
@@ -653,7 +635,7 @@ class _HomeState extends State<Home> {
                                           color: AppColors.text,
                                           fontFamily: 'Sora'
                                       ),
-                                      items: categorylistSelect!.map((CategoryListSelectModel model) {
+                                      items: categoryListSelect!.map((CategoryListSelectModel model) {
                                         return DropdownMenuItem<String>(
                                             value: model.id.toString(),
                                             child: Text(model.name.toString()));
@@ -715,7 +697,7 @@ class _HomeState extends State<Home> {
                                           color: AppColors.text,
                                           fontFamily: 'Sora'
                                       ),
-                                      items: accrountTypelistSelect!.map((AccrountTypeListSelectModel model) {
+                                      items: accrountTypeListSelect!.map((AccrountTypeListSelectModel model) {
                                         return DropdownMenuItem<String>(
                                             value: model.id.toString(),
                                             child: Text(model.name.toString()));
@@ -777,7 +759,7 @@ class _HomeState extends State<Home> {
                                           color: AppColors.text,
                                           fontFamily: 'Sora'
                                       ),
-                                      items: deliverylistSelect!.map((DeliveryListSelectModel model) {
+                                      items: deliveryListSelect!.map((DeliveryListSelectModel model) {
                                         return DropdownMenuItem<String>(
                                             value: model.id.toString(),
                                             child: Text(model.name.toString()));

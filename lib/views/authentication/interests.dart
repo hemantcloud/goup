@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:goup/views/authentication/otp.dart';
+import 'package:goup/utitlities/utitlities.dart';
 import 'package:goup/views/dashboard.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
@@ -18,6 +17,7 @@ class Interests extends StatefulWidget {
 }
 
 class _InterestsState extends State<Interests> {
+  List<String> allSelectedItems1 = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +27,7 @@ class _InterestsState extends State<Interests> {
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        // toolbarHeight: 80.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
@@ -35,7 +35,7 @@ class _InterestsState extends State<Interests> {
           child: Container(
             height: 60.0,
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.transparent, width: 0.0),
               borderRadius: BorderRadius.circular(5.0),
@@ -81,7 +81,7 @@ class _InterestsState extends State<Interests> {
                 'You can choose your favorite products',
                 style: TextStyle(
                     fontSize: 20.0,
-                    fontWeight: FontWeight.w600,
+                    // fontWeight: FontWeight.w600,
                     color: AppColors.black
                 ),
               ),
@@ -99,12 +99,12 @@ class _InterestsState extends State<Interests> {
                   itemsDecoration: MultiSelectDecorations(
                     decoration: BoxDecoration(
                         color: Color(0xFFF1F1F3),
-                        border: Border.all(color: Color(0xFFD2D2D2)),
+                        border: Border.all(color: Color(0xFFD2D2D2),width: 0.4),
                         borderRadius: BorderRadius.circular(7.0)
                     ),
                     selectedDecoration: BoxDecoration(
                         color: Color(0xFF6765C8),
-                        border: Border.all(color: Color(0xFF6765C8)),
+                        border: Border.all(color: Color(0xFF6765C8),width: 0.4),
                         borderRadius: BorderRadius.circular(7.0)
                     ),
                   ),
@@ -130,6 +130,7 @@ class _InterestsState extends State<Interests> {
                   ],
                   onChange: (allSelectedItems, selectedItem) {
                     print('allSelectedItems is $allSelectedItems');
+                    allSelectedItems1 = allSelectedItems;
                   }),
             ),
           ],
@@ -139,21 +140,25 @@ class _InterestsState extends State<Interests> {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onTap: () {
-          Navigator.pushAndRemoveUntil(
-            context,
-            PageTransition(
-              type: PageTransitionType.rightToLeftWithFade,
-              alignment: Alignment.topCenter,
-              duration: Duration(milliseconds: 1000),
-              isIos: true,
-              child: Dashboard(bottomIndex: 0),
-            ),
-            (route) => false,
-          );
+          if(allSelectedItems1.isEmpty){
+            Utilities().toast("Please Select atleast one interest.");
+          }else {
+            Navigator.pushAndRemoveUntil(
+              context,
+              PageTransition(
+                type: PageTransitionType.rightToLeftWithFade,
+                alignment: Alignment.topCenter,
+                duration: Duration(milliseconds: 1000),
+                isIos: true,
+                child: Dashboard(bottomIndex: 0),
+              ),
+                  (route) => false,
+            );
+          }
         },
         child: Container(
-          margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
-          height: 60.0,
+          margin: EdgeInsets.fromLTRB(16.0,0.0,16.0,16.0),
+          height: 50.0,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: AppColors.primary,

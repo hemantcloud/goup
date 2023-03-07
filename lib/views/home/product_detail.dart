@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:goup/models/product_size_model.dart';
 import 'package:goup/models/product_detail_model.dart';
-import 'package:goup/views/home/buy_now.dart';
+import 'package:goup/views/home/order_preview.dart';
+import 'package:goup/views/home/comment.dart';
 import 'package:goup/views/home/home_slider.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
@@ -48,31 +49,28 @@ class _ProductDetailState extends State<ProductDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.only(bottom: 78.0),
+        padding: const EdgeInsets.only(bottom: 70.0),
         child: Column(
           children: [
             Column(
               children: [
                 Stack(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 40.0),
-                      child: Column(
-                        children: [
-                          HomeSlider(imgList: imgList),
-                        ],
-                      ),
+                    Column(
+                      children: [
+                        HomeSlider(imgList: imgList),
+                      ],
                     ),
                     Positioned(
-                      top: 70,
-                      left: 20,
+                      top: 45,
+                      left: 16,
                       child: InkWell(
                         onTap: () => Navigator.pop(context),
                         child: SvgPicture.asset('assets/icons/left.svg',width: 10.0,color: AppColors.black,),
                       )
                     ),
                     Positioned(
-                      top: 55,
+                      top: 35,
                       left: 40,
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(60.0),
@@ -83,7 +81,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       ),
                     ),
                     Positioned(
-                      top: 60,
+                      top: 40,
                       left: 90,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +92,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       ),
                     ),
                     Positioned(
-                        top: 60,
+                        top: 40,
                         right: 30,
                         child: InkWell(
                           // onTap: () => Navigator.pop(context),
@@ -102,7 +100,7 @@ class _ProductDetailState extends State<ProductDetail> {
                         )
                     ),
                     Positioned(
-                        top: 60,
+                        top: 40,
                         right: 10,
                         child: InkWell(
                           onTap: () => moreBottomSheet(context),
@@ -112,7 +110,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
                   child: Row(
                     children: [
                       Expanded(
@@ -150,18 +148,32 @@ class _ProductDetailState extends State<ProductDetail> {
                                 ),
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.01),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/chat.svg',
-                                    width: 16.0,
-                                    height: 16.0,
+                            InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageTransition(
+                                    type: PageTransitionType.rightToLeftWithFade,
+                                    alignment: Alignment.topCenter,
+                                    duration: Duration(milliseconds: 1000),
+                                    isIos: true,
+                                    child: Comment(),
                                   ),
-                                  SizedBox(width: 3.0),
-                                  Text('09',style: TextStyle(color: AppColors.text),)
-                                ],
+                                );
+                              },
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.01),
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/icons/chat.svg',
+                                      width: 16.0,
+                                      height: 16.0,
+                                    ),
+                                    SizedBox(width: 3.0),
+                                    Text('09',style: TextStyle(color: AppColors.text),)
+                                  ],
+                                ),
                               ),
                             ),
                             Container(
@@ -320,7 +332,7 @@ class _ProductDetailState extends State<ProductDetail> {
                 ),
               ),*/
               child: Padding(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 0.0),
                 child: SingleChildScrollView(
                   physics: ScrollPhysics(),
                   child: Column(
@@ -364,10 +376,6 @@ class _ProductDetailState extends State<ProductDetail> {
                                   TextSpan(
                                     text: 'Military green',
                                     style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.black),
-                                    /*recognizer: new TapGestureRecognizer()
-                                      ..onTap = () => {
-                                        Navigator.pop(context)
-                                      },*/
                                   ),
                                 ],
                               ),
@@ -607,8 +615,8 @@ class _ProductDetailState extends State<ProductDetail> {
         ),
       ),*/
       bottomSheet: Container(
-        height: 78.0,
-        padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 13.0),
+        height: 70.0,
+        padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 10.0),
         color: Colors.transparent,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -624,7 +632,7 @@ class _ProductDetailState extends State<ProductDetail> {
                       alignment: Alignment.topCenter,
                       duration: Duration(milliseconds: 1000),
                       isIos: true,
-                      child: BuyNow(),
+                      child: OrderPreview(),
                     ),
                   );
                 },

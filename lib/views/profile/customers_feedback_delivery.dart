@@ -44,7 +44,7 @@ class _CustomersFeedbackDeliveryState extends State<CustomersFeedbackDelivery> {
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        // toolbarHeight: 80.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
@@ -52,7 +52,7 @@ class _CustomersFeedbackDeliveryState extends State<CustomersFeedbackDelivery> {
           child: Container(
             height: 60.0,
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            // padding: EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.transparent, width: 0.0),
               borderRadius: BorderRadius.circular(5.0),
@@ -77,7 +77,7 @@ class _CustomersFeedbackDeliveryState extends State<CustomersFeedbackDelivery> {
                       'Customer’s Feedback',
                       style: TextStyle(
                         color: AppColors.black,
-                        fontSize: 20.0
+                        fontSize: 18.0
                       ),
                     ),
                   ),
@@ -96,7 +96,7 @@ class _CustomersFeedbackDeliveryState extends State<CustomersFeedbackDelivery> {
             alignment: Alignment.center,
             child: Text(
               'How was your Delivery?',
-              style: TextStyle(color: Color(0xFF071440),fontSize: 18.0,fontWeight: FontWeight.w600),
+              style: TextStyle(color: Color(0xFF071440),fontSize: 18.0),
               textAlign: TextAlign.center,
             ),
           ),
@@ -167,7 +167,7 @@ class _CustomersFeedbackDeliveryState extends State<CustomersFeedbackDelivery> {
           );
         },
         child: Container(
-          margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
+          margin: EdgeInsets.fromLTRB(16.0,0.0,16.0,16.0),
           height: 50.0,
           alignment: Alignment.center,
           decoration: BoxDecoration(

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:goup/views/basket/basket.dart';
 import 'package:goup/views/home/home.dart';
+import 'package:goup/views/home/home2.dart';
 import 'package:goup/views/inbox/inbox.dart';
 import 'package:goup/views/profile/profile.dart';
 import 'package:goup/views/utilities/utilities.dart';

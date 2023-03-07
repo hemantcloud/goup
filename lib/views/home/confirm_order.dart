@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:flutter_switch/flutter_switch.dart';
+import 'package:goup/views/home/payment.dart';
 import 'package:goup/views/home/payment_method.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
@@ -39,15 +40,15 @@ class _ConfirmorderState extends State<Confirmorder> {
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        // toolbarHeight: 80.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
           padding: EdgeInsets.only(top: 40.0, bottom: 10.0),
           child: Container(
             height: 60.0,
-            margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            // padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.transparent, width: 0.0),
               borderRadius: BorderRadius.circular(5.0),
@@ -86,7 +87,7 @@ class _ConfirmorderState extends State<Confirmorder> {
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
             Row(
@@ -273,7 +274,7 @@ class _ConfirmorderState extends State<Confirmorder> {
       ),
       bottomSheet: Container(
         height: 200.0,
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -339,16 +340,16 @@ class _ConfirmorderState extends State<Confirmorder> {
             ),
             InkWell(
               onTap: () {
-                /*Navigator.push(
+                Navigator.push(
                   context,
                   PageTransition(
                     type: PageTransitionType.rightToLeftWithFade,
                     alignment: Alignment.topCenter,
                     duration: Duration(milliseconds: 1000),
                     isIos: true,
-                    child: PaymentMethod(getData: getData2),
+                    child: Payment(),
                   ),
-                );*/
+                );
               },
               child: Container(
                 height: 50.0,

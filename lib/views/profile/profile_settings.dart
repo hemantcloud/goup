@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -86,7 +87,7 @@ class _ProfileSettingsState extends State<ProfileSettings> with TickerProviderSt
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        // toolbarHeight: 80.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
@@ -94,7 +95,7 @@ class _ProfileSettingsState extends State<ProfileSettings> with TickerProviderSt
           child: Container(
             height: 60.0,
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-            padding: EdgeInsets.symmetric(horizontal: 10.0),
+            // padding: EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.transparent, width: 0.0),
               borderRadius: BorderRadius.circular(5.0),
@@ -299,7 +300,7 @@ class _ProfileSettingsState extends State<ProfileSettings> with TickerProviderSt
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
-                'Account settings',style: TextStyle(color: AppColors.black,fontSize: 18.0,fontWeight: FontWeight.w600),
+                'Account settings',style: TextStyle(color: AppColors.black,fontSize: 18.0),
               ),
             ),
             Container(
@@ -593,7 +594,7 @@ class _ProfileSettingsState extends State<ProfileSettings> with TickerProviderSt
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Text(
-                'General settings',style: TextStyle(color: AppColors.black,fontSize: 18.0,fontWeight: FontWeight.w600),
+                'General settings',style: TextStyle(color: AppColors.black,fontSize: 18.0),
               ),
             ),
             Container(
@@ -648,35 +649,39 @@ class _ProfileSettingsState extends State<ProfileSettings> with TickerProviderSt
                       ),
                     ],
                   ),
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(right: 10.0),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(60.0)),
-                          ),
-                          child: SvgPicture.asset('assets/icons/change_password.svg'),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: Text(
-                            'Change Password',
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: AppColors.black,
+                  InkWell(
+                    onTap: () {
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(10.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            padding: EdgeInsets.only(right: 10.0),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(Radius.circular(60.0)),
                             ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
+                            child: SvgPicture.asset('assets/icons/change_password.svg'),
                           ),
-                        ),
-                        Container(
-                          padding: EdgeInsets.only(left: 10.0),
-                          child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
-                        )
-                      ],
+                          Expanded(
+                            flex: 1,
+                            child: Text(
+                              'Change Password',
+                              style: TextStyle(
+                                fontSize: 15.0,
+                                color: AppColors.black,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(left: 10.0),
+                            child: SvgPicture.asset('assets/icons/right_arrow.svg',width: 20.0,height: 20.0),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Row(
@@ -938,7 +943,7 @@ class _ProfileSettingsState extends State<ProfileSettings> with TickerProviderSt
           );
         },
         child: Container(
-          margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
+          margin: EdgeInsets.fromLTRB(16.0,16.0,16.0,16.0),
           height: 50.0,
           alignment: Alignment.center,
           decoration: BoxDecoration(
@@ -1193,7 +1198,7 @@ class _ProfileSettingsState extends State<ProfileSettings> with TickerProviderSt
                               style: TextStyle(
                                 color: AppColors.black,
                                 fontSize: 18.0,
-                                fontWeight: FontWeight.w600,
+                                // fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),

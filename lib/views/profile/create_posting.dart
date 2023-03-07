@@ -6,7 +6,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:goup/utitlities/utitlities.dart';
 import 'package:goup/views/utilities/utilities.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class CreatePosting extends StatefulWidget {
@@ -17,11 +19,19 @@ class CreatePosting extends StatefulWidget {
 }
 
 class _CreatePostingState extends State<CreatePosting> {
-  bool isWarrentySelected = false;
-  String warrentyText = 'Available';
+  bool isWarrantySelected = false;
+  int warrantyText = 0;
   final ImagePicker imagePicker = ImagePicker();
-  XFile? photoController;
+  // XFile? photoController;
   List<XFile>? imageFileList = [];
+  XFile? imageFile;
+  TextEditingController titleController = TextEditingController();
+  TextEditingController priceController = TextEditingController();
+  TextEditingController quantityController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController cloneController = TextEditingController();
+  TextEditingController discountController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,15 +41,15 @@ class _CreatePostingState extends State<CreatePosting> {
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        // toolbarHeight: 80.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
           padding: EdgeInsets.only(top: 40.0, bottom: 10.0),
           child: Container(
             height: 60.0,
-            margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            // padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.transparent, width: 0.0),
               borderRadius: BorderRadius.circular(5.0),
@@ -64,7 +74,7 @@ class _CreatePostingState extends State<CreatePosting> {
                     child: Text(
                       'Create Posting',
                       style: TextStyle(
-                        fontWeight: FontWeight.w700,
+                        // fontWeight: FontWeight.w700,
                         fontSize: 18.0,
                         color: Colors.black,
                       ),
@@ -78,14 +88,14 @@ class _CreatePostingState extends State<CreatePosting> {
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
             Container(
               alignment: Alignment.centerLeft,
               padding: EdgeInsets.only(bottom: 10.0),
               child: Text(
-                'Tittle of product',
+                'Title of product',
                 style: TextStyle(color: Colors.black,fontSize: 16.0),
               ),
             ),
@@ -102,6 +112,7 @@ class _CreatePostingState extends State<CreatePosting> {
                   Expanded(
                     flex: 1,
                     child: TextFormField(
+                      controller: titleController,
                       style: const TextStyle(fontSize: 14.0, color: AppColors.black),
                       cursorColor: AppColors.primary,
                       decoration: myInputDecoration('Write product name here'),
@@ -131,6 +142,8 @@ class _CreatePostingState extends State<CreatePosting> {
                   Expanded(
                     flex: 1,
                     child: TextFormField(
+                      keyboardType: TextInputType.number,
+                      controller: priceController,
                       style: const TextStyle(fontSize: 14.0, color: AppColors.black),
                       cursorColor: AppColors.primary,
                       decoration: myInputDecoration('Write price here'),
@@ -164,6 +177,8 @@ class _CreatePostingState extends State<CreatePosting> {
                   Expanded(
                     flex: 1,
                     child: TextFormField(
+                      controller: quantityController,
+                      keyboardType: TextInputType.number,
                       style: const TextStyle(fontSize: 14.0, color: AppColors.black),
                       cursorColor: AppColors.primary,
                       decoration: myInputDecoration('Write quantity here'),
@@ -193,6 +208,7 @@ class _CreatePostingState extends State<CreatePosting> {
                   Expanded(
                     flex: 1,
                     child: TextFormField(
+                      controller: descriptionController,
                       maxLines: 5,
                       style: const TextStyle(fontSize: 14.0, color: AppColors.black),
                       cursorColor: AppColors.primary,
@@ -208,7 +224,7 @@ class _CreatePostingState extends State<CreatePosting> {
               child: Row(
                 children: [
                   Text(
-                    'Warrenty ',
+                    'Warranty ',
                     style: TextStyle(color: Colors.black,fontSize: 16.0),
                   ),
                   Text(
@@ -220,7 +236,7 @@ class _CreatePostingState extends State<CreatePosting> {
             ),
             InkWell(
               onTap: () {
-                isWarrentySelected = !isWarrentySelected;
+                isWarrantySelected = !isWarrantySelected;
                 setState(() {});
               },
               child: Container(
@@ -236,7 +252,7 @@ class _CreatePostingState extends State<CreatePosting> {
                     Expanded(
                       flex: 1,
                       child: Text(
-                        warrentyText,
+                        warrantyText == 0 ? 'Available' : '${warrantyText.toString()} year',
                         style: const TextStyle(fontSize: 14.0, color: AppColors.secondary),
                       ),
                     ),
@@ -248,41 +264,48 @@ class _CreatePostingState extends State<CreatePosting> {
                 ),
               ),
             ),
-            isWarrentySelected == false ? Container() :
+            isWarrantySelected == false ? Container() :
             Container(
-              padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
+              padding: EdgeInsets.symmetric(vertical: 10.0),
               child: Column(
                 children: [
                   InkWell(
                     onTap: () {
+                      warrantyText = 1;
                       setState(() {});
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            children: [
-                              Text(
-                                '1 year ',
-                                style: TextStyle(color: Colors.black,fontSize: 16.0),
-                              ),
-                              Text(
-                                '(since activate)',
-                                style: TextStyle(color: AppColors.secondary),
-                              ),
-                            ],
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: warrantyText == 1 ? Color(0xFFEAEAEB) : Colors.transparent,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Row(
+                              children: [
+                                Text(
+                                  '1 year ',
+                                  style: TextStyle(color: Colors.black,fontSize: 16.0),
+                                ),
+                                Text(
+                                  '(since activate)',
+                                  style: TextStyle(color: AppColors.secondary),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Row(
                     children: [
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 10.0),
                           color: Color(0xFFF4F5F7),
                           height: 1.0,
                           child: null,
@@ -292,34 +315,41 @@ class _CreatePostingState extends State<CreatePosting> {
                   ),
                   InkWell(
                     onTap: () {
+                      warrantyText = 2;
                       setState(() {});
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            children: [
-                              Text(
-                                '2 year ',
-                                style: TextStyle(color: Colors.black,fontSize: 16.0),
-                              ),
-                              Text(
-                                '(since activate)',
-                                style: TextStyle(color: AppColors.secondary),
-                              ),
-                            ],
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: warrantyText == 2 ? Color(0xFFEAEAEB) : Colors.transparent,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Row(
+                              children: [
+                                Text(
+                                  '2 year ',
+                                  style: TextStyle(color: Colors.black,fontSize: 16.0),
+                                ),
+                                Text(
+                                  '(since activate)',
+                                  style: TextStyle(color: AppColors.secondary),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Row(
                     children: [
                       Expanded(
                         child: Container(
-                          margin: EdgeInsets.symmetric(vertical: 10.0),
                           color: Color(0xFFF4F5F7),
                           height: 1.0,
                           child: null,
@@ -329,27 +359,35 @@ class _CreatePostingState extends State<CreatePosting> {
                   ),
                   InkWell(
                     onTap: () {
+                      warrantyText = 3;
                       setState(() {});
                     },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          flex: 1,
-                          child: Row(
-                            children: [
-                              Text(
-                                '3 year ',
-                                style: TextStyle(color: Colors.black,fontSize: 16.0),
-                              ),
-                              Text(
-                                '(since activate)',
-                                style: TextStyle(color: AppColors.secondary),
-                              ),
-                            ],
+                    child: Container(
+                      padding: EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.0),
+                        color: warrantyText == 3 ? Color(0xFFEAEAEB) : Colors.transparent,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            flex: 1,
+                            child: Row(
+                              children: [
+                                Text(
+                                  '3 year ',
+                                  style: TextStyle(color: Colors.black,fontSize: 16.0),
+                                ),
+                                Text(
+                                  '(since activate)',
+                                  style: TextStyle(color: AppColors.secondary),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -357,7 +395,7 @@ class _CreatePostingState extends State<CreatePosting> {
             ),
             Container(
               alignment: Alignment.centerLeft,
-              padding: EdgeInsets.only(top: 15.0,bottom: 10.0),
+              padding: EdgeInsets.only(top: 5.0,bottom: 10.0),
               child: Row(
                 children: [
                   Text(
@@ -384,6 +422,8 @@ class _CreatePostingState extends State<CreatePosting> {
                   Expanded(
                     flex: 1,
                     child: TextFormField(
+                      controller: cloneController,
+                      keyboardType: TextInputType.number,
                       style: const TextStyle(fontSize: 14.0, color: AppColors.black),
                       cursorColor: AppColors.primary,
                       decoration: myInputDecoration('Write number of clones'),
@@ -413,6 +453,8 @@ class _CreatePostingState extends State<CreatePosting> {
                   Expanded(
                     flex: 1,
                     child: TextFormField(
+                      controller: discountController,
+                      keyboardType: TextInputType.number,
                       style: const TextStyle(fontSize: 14.0, color: AppColors.black),
                       cursorColor: AppColors.primary,
                       decoration: myInputDecoration('Write price here'),
@@ -511,7 +553,6 @@ class _CreatePostingState extends State<CreatePosting> {
                                         child: InkWell(
                                           onTap: (){
                                             imageFileList!.removeAt(index);
-                                            // print(index);
                                             setState(() {});
                                           },
                                           child: Container(
@@ -569,20 +610,51 @@ class _CreatePostingState extends State<CreatePosting> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
-        height: 50.0,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: AppColors.primary,
-          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-        ),
-        child: Text(
-          'Save & Continue',
-          style: TextStyle(
-              color: Colors.white,
-              fontSize: 16.0
-            // fontWeight: FontWeight.w700,
+      bottomNavigationBar: InkWell(
+        onTap: () {
+          String title = titleController.text;
+          String price = priceController.text;
+          String quantity = quantityController.text;
+          String description = descriptionController.text;
+          String clone = cloneController.text;
+          String discount = discountController.text;
+          if (title.isEmpty) {
+            Utilities().toast("Please Enter title.");
+          } else if (price.isEmpty) {
+            Utilities().toast("Please Enter price.");
+          } else if (quantity.isEmpty) {
+            Utilities().toast("Please Enter quantity.");
+          } else if (description.isEmpty) {
+            Utilities().toast("Please Enter description.");
+          } else if (warrantyText == 0) {
+            isWarrantySelected = true;
+            setState(() {});
+            Utilities().toast("Please select warrenty.");
+          } else if (clone.isEmpty) {
+            Utilities().toast("Please Enter clone.");
+          } else if (discount.isEmpty) {
+            Utilities().toast("Please Enter discount.");
+          } else if (imageFileList!.length < 1) {
+            Utilities().toast("Please Select atleast one image.");
+          }else {
+            print('Done');
+          }
+        },
+        child: Container(
+          margin: EdgeInsets.fromLTRB(16.0,0.0,16.0,16.0),
+          height: 50.0,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          child: Text(
+            'Save & Continue',
+            style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.0
+              // fontWeight: FontWeight.w700,
+            ),
           ),
         ),
       ),
@@ -600,7 +672,7 @@ class _CreatePostingState extends State<CreatePosting> {
       border: InputBorder.none,
     );
   }
-  // bottom bar for select image multiple
+  // bottom bar for select image
   bottom_select_multiple(BuildContext context) {
     return showModalBottomSheet(
         context: context,
@@ -611,7 +683,8 @@ class _CreatePostingState extends State<CreatePosting> {
               title: Text('Camera'),
               onTap: () {
                 //Navigator.pop(context);
-                pickImageMultipleCam(context, ImageSource.camera);
+                // pickImageCam(context, ImageSource.camera);
+                _imgFromCamera();
               },
             ),
             ListTile(
@@ -626,7 +699,7 @@ class _CreatePostingState extends State<CreatePosting> {
         });
   }
   // pick Image multiple camera
-  Future pickImageMultipleCam(BuildContext context, imageSource) async {
+  Future pickImageCam(BuildContext context, imageSource) async {
     Navigator.pop(context);
     // imageFileList!.clear();
     if (!kIsWeb) {
@@ -675,6 +748,56 @@ class _CreatePostingState extends State<CreatePosting> {
         }
       }
       setState(() {});
+    }
+  }
+  _imgFromCamera() async {
+    Navigator.pop(context);
+    await imagePicker.pickImage(
+        source: ImageSource.camera, imageQuality: 50
+    ).then((value){
+      if(value != null){
+        _cropImage(File(value.path));
+      }
+    });
+  }
+  _cropImage(File imgFile) async {
+    final croppedFile = await ImageCropper().cropImage(
+        sourcePath: imgFile.path,
+        aspectRatioPresets: Platform.isAndroid
+            ? [
+          // CropAspectRatioPreset.square,
+          // CropAspectRatioPreset.ratio3x2,
+          CropAspectRatioPreset.original,
+          // CropAspectRatioPreset.ratio4x3,
+          // CropAspectRatioPreset.ratio16x9
+        ] : [
+          CropAspectRatioPreset.original,
+          // CropAspectRatioPreset.square,
+          // CropAspectRatioPreset.ratio3x2,
+          // CropAspectRatioPreset.ratio4x3,
+          // CropAspectRatioPreset.ratio5x3,
+          // CropAspectRatioPreset.ratio5x4,
+          // CropAspectRatioPreset.ratio7x5,
+          // CropAspectRatioPreset.ratio16x9
+        ],
+        uiSettings: [AndroidUiSettings(
+            toolbarTitle: "Image Cropper",
+            activeControlsWidgetColor: AppColors.primary,
+            toolbarColor: AppColors.primary,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.original,
+            lockAspectRatio: false),
+          IOSUiSettings(
+            title: "Image Cropper",
+          )
+        ]);
+    if (croppedFile != null) {
+      imageCache.clear();
+      setState(() {
+        imageFile = XFile(croppedFile.path);
+        imageFileList!.add(imageFile!);
+      });
+      // reload();
     }
   }
 }

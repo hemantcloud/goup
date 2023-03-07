@@ -4,13 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:flutter_switch/flutter_switch.dart';
-import 'package:goup/views/profile/my_bills.dart';
-import 'package:goup/views/profile/order_requests.dart';
-import 'package:goup/views/profile/privacy_policy.dart';
-import 'package:goup/views/profile/terms_and_conditions.dart';
 import 'package:goup/views/utilities/utilities.dart';
-import 'package:page_transition/page_transition.dart';
 
 class ScanCode extends StatefulWidget {
   ScanCode({Key? key}) : super(key: key);
@@ -54,7 +48,7 @@ class _ScanCodeState extends State<ScanCode> with TickerProviderStateMixin {
                   child: Container(
                     width: 20.0,
                     height: 20.0,
-                    child: SvgPicture.asset('assets/icons/back.svg',),
+                    child: SvgPicture.asset('assets/icons/back.svg',color: Colors.white,),
                   ),
                 ),
                 Expanded(

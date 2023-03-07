@@ -24,15 +24,15 @@ class _CategoriesState extends State<Categories> {
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        // toolbarHeight: 80.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
           padding: EdgeInsets.only(top: 40.0, bottom: 10.0),
           child: Container(
             height: 60.0,
-            margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
+            // padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.transparent, width: 0.0),
               borderRadius: BorderRadius.circular(5.0),
@@ -57,7 +57,7 @@ class _CategoriesState extends State<Categories> {
                     child: Text(
                       'Categories',
                       style: TextStyle(
-                        fontWeight: FontWeight.w700,
+                        // fontWeight: FontWeight.w700,
                         fontSize: 18.0,
                         color: Colors.black,
                       ),
@@ -71,7 +71,7 @@ class _CategoriesState extends State<Categories> {
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(20.0),
+        padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
             Container(
@@ -82,7 +82,7 @@ class _CategoriesState extends State<Categories> {
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 18.0,
-                    fontWeight: FontWeight.w600
+                    // fontWeight: FontWeight.w600
                 ),
               ),
             ),

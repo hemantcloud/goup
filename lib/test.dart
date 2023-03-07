@@ -2,23 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:goup/views/utilities/utilities.dart';
 
-class AboutUs extends StatefulWidget {
-  const AboutUs({Key? key}) : super(key: key);
+class Test extends StatefulWidget {
+  const Test({Key? key}) : super(key: key);
 
   @override
-  State<AboutUs> createState() => _AboutUsState();
+  State<Test> createState() => _TestState();
 }
 
-class _AboutUsState extends State<AboutUs> {
-  String? data = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Accumsan in nisl nisi scelerisque eu ultrices vitae. Iaculis eu non diam phasellus vestibulum lorem sed. Duis convallis convallis tellus id interdum velit laoreet id donec. Commodo quis imperdiet massa tincidunt nunc pulvinar.Lectus mauris ultrices eros in cursus. Id eu nisl nunc mi ipsum faucibus. Morbi tincidunt ornare massa eget egestas purus viverra accumsan in. Senectus et netus et malesuada fames ac turpis.Congue mauris rhoncus aenean vel elit scelerisque mauris. Et magnis dis parturient montes nascetur ridiculus. Ipsum dolor sit amet consectetur adipiscing elit duis tristique sollicitudin. Ultrices vitae auctor eu augue ut. Gravida neque convallis a cras semper auctor. Id diam maecenas ultricies mi eget mauris pharetra et. Volutpat commodo sed egestas egestas fringilla.";
+class _TestState extends State<Test> {
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
           statusBarColor: Colors.white,
@@ -49,14 +48,14 @@ class _AboutUsState extends State<AboutUs> {
                   child: Container(
                     width: 20.0,
                     height: 20.0,
-                    child: SvgPicture.asset('assets/icons/back.svg'),
+                    child: SvgPicture.asset('assets/icons/back.svg',),
                   ),
                 ),
                 Expanded(
                   flex: 1,
                   child: Center(
                     child: Text(
-                      'About Us',
+                      'Privacy Policy',
                       style: TextStyle(
                         // fontWeight: FontWeight.w700,
                         fontSize: 18.0,
@@ -72,18 +71,9 @@ class _AboutUsState extends State<AboutUs> {
         elevation: 0.0,
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            data == null || data == '' ? Container() :
-            Html(
-              data: data,
-              style: {
-                data.toString() : Style(
-                  color: AppColors.text4
-                )
-              },
-            ),
+            Image.asset('assets/images/image.jpg')
           ],
         ),
       ),

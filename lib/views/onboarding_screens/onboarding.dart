@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+// ignore: unnecessary_import
 import 'package:flutter/services.dart';
 import 'package:goup/views/authentication/login.dart';
 import 'package:goup/views/onboarding_screens/page_1.dart';
@@ -35,7 +36,7 @@ class _OnboardingState extends State<Onboarding> {
                 controller: _controller,
                 onPageChanged: (index) {
                   _currentIndex = index;
-                  // print('_currentIndex index is---------$_currentIndex');
+                  print('_currentIndex index is---------$_currentIndex');
                   setState(() {});
                 },
                 reverse: false,
@@ -50,16 +51,23 @@ class _OnboardingState extends State<Onboarding> {
 
             InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  PageTransition(
-                    type: PageTransitionType.rightToLeftWithFade,
-                    alignment: Alignment.topCenter,
-                    duration: Duration(milliseconds: 1000),
-                    isIos: true,
-                    child: Login(),
-                  ),
-                );
+                if(_currentIndex == 3){
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.rightToLeftWithFade,
+                      alignment: Alignment.topCenter,
+                      duration: Duration(milliseconds: 1000),
+                      isIos: true,
+                      child: Login(),
+                    ),
+                  );
+                }else{
+                  _controller.nextPage(
+                    duration: Duration(milliseconds: 500),
+                    curve: Curves.easeIn,
+                  );
+                }
               },
               child: Container(
                 margin: EdgeInsets.only(left: 20.0,right: 20.0),
@@ -70,7 +78,7 @@ class _OnboardingState extends State<Onboarding> {
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: Text(
-                  'Let’s continue',
+                  _currentIndex == 3 ? 'Let’s continue' : 'Next',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,

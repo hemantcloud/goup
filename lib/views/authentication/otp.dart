@@ -1,9 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'dart:async';
-import 'dart:developer';
 
-import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
@@ -11,8 +9,6 @@ import 'package:flutter_countdown_timer/current_remaining_time.dart';
 import 'package:flutter_countdown_timer/flutter_countdown_timer.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:goup/utitlities/utitlities.dart';
-import 'package:goup/views/authentication/interests.dart';
-import 'package:goup/views/authentication/login.dart';
 import 'package:goup/views/authentication/personal_info.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:otp_text_field/otp_text_field.dart';
@@ -56,7 +52,7 @@ class _OtpState extends State<Otp> {
           statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
           statusBarBrightness: Brightness.light, // For iOS (dark icons)
         ),
-        toolbarHeight: 80.0,
+        // toolbarHeight: 50.0,
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
         flexibleSpace: Padding(
@@ -64,7 +60,7 @@ class _OtpState extends State<Otp> {
           child: Container(
             height: 60.0,
             margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.transparent, width: 0.0),
               borderRadius: BorderRadius.circular(5.0),
@@ -110,7 +106,7 @@ class _OtpState extends State<Otp> {
                 'Enter the OTP Verification Code',
                 style: TextStyle(
                     fontSize: 20.0,
-                    fontWeight: FontWeight.w600,
+                    // fontWeight: FontWeight.w600,
                     color: AppColors.black
                 ),
               ),
@@ -132,10 +128,11 @@ class _OtpState extends State<Otp> {
                 style: TextStyle(fontSize: 17),
                 textFieldAlignment: MainAxisAlignment.spaceAround,
                 fieldStyle: FieldStyle.box,
+                onChanged: (otp) {
+                  pin = otp;
+                },
                 onCompleted: (otp) {
                   print("Completed: " + otp);
-                  pin = otp;
-                  print(otp.runtimeType);
                 },
               ),
             ),
@@ -187,12 +184,9 @@ class _OtpState extends State<Otp> {
         splashColor: Colors.transparent,
         highlightColor: Colors.transparent,
         onTap: () {
-          print('pin is ------------$pin');
-          print('type is ------------${pin.runtimeType}');
-          /*if (otp.isEmpty) {
+          if (pin == null || pin!.isEmpty) {
             Utilities().toast("Please Enter Otp.");
-          } else if (otp.length < 4 || otp.length > 4) {
-            print('otp is ----------${otp.toString()}');
+          } else if (pin!.length < 4 || pin!.length > 4) {
             Utilities().toast("Please Enter Valid Otp.");
           }else {
             Navigator.push(
@@ -205,11 +199,11 @@ class _OtpState extends State<Otp> {
                 child: PersonalInfo(),
               ),
             );
-          }*/
+          }
         },
         child: Container(
-          margin: EdgeInsets.fromLTRB(20.0,0.0,20.0,20.0),
-          height: 60.0,
+          margin: EdgeInsets.fromLTRB(16.0,0.0,16.0,16.0),
+          height: 50.0,
           alignment: Alignment.center,
           decoration: BoxDecoration(
             color: AppColors.primary,

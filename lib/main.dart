@@ -1,11 +1,10 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:goup/views/authentication/interests.dart';
+import 'package:goup/test.dart';
 import 'package:goup/views/dashboard.dart';
-import 'package:goup/views/splash.dart';
+import 'package:goup/views/inbox/chat.dart';
 import 'package:goup/views/splash2.dart';
-import 'package:goup/views/test.dart';
 import 'package:goup/views/utilities/utilities.dart';
 
 void main() {
@@ -29,11 +28,12 @@ class MyApp extends StatelessWidget {
         ),
         fontFamily: 'Sora',
       ),
-      // home: Splash(),
       home: Splash2(),
+      // home: Test(),
       // home: Interests(),
       // home: Test(),
-      // home: Dashboard(bottomIndex: 0),
+      //  home: Dashboard(bottomIndex: 0),
+      // home: Splash(),
     );
   }
 }

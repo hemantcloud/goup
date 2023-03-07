@@ -1,23 +1,23 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print, sort_child_properties_last
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, avoid_print
 
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:goup/models/cart_model.dart';
 import 'package:goup/views/home/confirm_order.dart';
 import 'package:goup/views/utilities/utilities.dart';
+import 'package:intl/intl.dart';
 import 'package:page_transition/page_transition.dart';
 
-class Basket extends StatefulWidget {
-  const Basket({Key? key}) : super(key: key);
+class SelectProduct extends StatefulWidget {
+  const SelectProduct({Key? key}) : super(key: key);
 
   @override
-  State<Basket> createState() => _BasketState();
+  State<SelectProduct> createState() => _SelectProductState();
 }
 
-class _BasketState extends State<Basket> with TickerProviderStateMixin {
+class _SelectProductState extends State<SelectProduct> with TickerProviderStateMixin {
   TextEditingController nameController = TextEditingController();
   final List<CartModel> cartList = [
     CartModel(id: 1, name: 'Nike green sneaker', image: 'assets/images/product_image.png', price: '280', qty: 20,brand: 'Nike',size: '38', selected: false),
@@ -32,6 +32,7 @@ class _BasketState extends State<Basket> with TickerProviderStateMixin {
   int total = 0;
   @override
   Widget build(BuildContext context) {
+    var formatter = NumberFormat('#,##,000');
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
@@ -49,7 +50,7 @@ class _BasketState extends State<Basket> with TickerProviderStateMixin {
           child: Container(
             height: 60.0,
             // color: Colors.black,
-            margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
+            margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.transparent, width: 0.0),
@@ -71,7 +72,7 @@ class _BasketState extends State<Basket> with TickerProviderStateMixin {
                 ),
                 InkWell(
                   // onTap: () => moreBottomSheet(context),
-                  child: selectedInterest.length == 0 ? Container() : Container(
+                  child: Container(
                     alignment: Alignment.center,
                     child: SvgPicture.asset('assets/icons/delete.svg',color: AppColors.black),
                   ),
@@ -82,9 +83,9 @@ class _BasketState extends State<Basket> with TickerProviderStateMixin {
         ),
         elevation: 0.0,
       ),
-      body: Padding(
+      body: Container(
         padding: EdgeInsets.only(
-          bottom: selectedInterest.length == 0 ? 0 : 90.0,
+            bottom: selectedInterest.length == 0 ? 0.0 : 90.0
         ),
         child: Column(
           children: [
@@ -148,135 +149,121 @@ class _BasketState extends State<Basket> with TickerProviderStateMixin {
                       // color: Colors.red.shade100,
                       color: Colors.white,
                     ),
-                    child: Slidable(
-                      child: Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  if(cartList[index].selected==true){
-                                    selectedInterest.remove(cartList[index].id);
-                                    cartList[index].selected= false;
-                                    print(selectedInterest);
-                                    total -= int.parse(cartList[index].price.toString());
-                                    print('price is ------$total');
-                                    print('total.runtimeType is ------${total.runtimeType}');
-                                  }else {
-                                    selectedInterest.add(cartList[index].id!);
-                                    cartList[index].selected= true;
-                                    print(selectedInterest);
-                                    total += int.parse(cartList[index].price.toString());
-                                    print('price is ------$total');
-                                    print('total.runtimeType is ------${total.runtimeType}');
-                                  }
-                                  setState(() {});
-                                },
-                                child: Container(
-                                  width: 40.0,
-                                  height: 40.0,
-                                  padding: EdgeInsets.all(10.0),
-                                  child: cartList[index].selected == true
-                                  ? Image.asset('assets/icons/gender_selected.png')
-                                  : SvgPicture.asset('assets/icons/gender_unselected.svg'),
+                    child: Column(
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                if(cartList[index].selected==true){
+                                  selectedInterest.remove(cartList[index].id);
+                                  cartList[index].selected= false;
+                                  total -= int.parse(cartList[index].price.toString());
+                                  print('price is ------$total');
+                                  print('total.runtimeType is ------${total.runtimeType}');
+                                }else {
+                                  selectedInterest.add(cartList[index].id!);
+                                  cartList[index].selected= true;
+                                  total += int.parse(cartList[index].price.toString());
+                                  print('price is ------$total');
+                                  print('total.runtimeType is ------${total.runtimeType}');
+                                }
+                                setState(() {});
+                              },
+                              child: Container(
+                                width: 40.0,
+                                height: 40.0,
+                                padding: EdgeInsets.all(10.0),
+                                child: cartList[index].selected == true
+                                ? Image.asset('assets/icons/gender_selected.png')
+                                : SvgPicture.asset('assets/icons/gender_unselected.svg'),
+                              ),
+                            ),
+                            Container(
+                              width: 60.0,
+                              height: 60.0,
+                              margin: EdgeInsets.only(right: 10.0),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                image: DecorationImage(
+                                  image: AssetImage(cartList[index].image.toString()),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              Container(
-                                width: 60.0,
-                                height: 60.0,
-                                margin: EdgeInsets.only(right: 10.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-                                  image: DecorationImage(
-                                    image: AssetImage(cartList[index].image.toString()),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                              ),
-                              Expanded(
-                                flex: 1,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      cartList[index].name.toString(),
-                                      style: const TextStyle(
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppColors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    cartList[index].name.toString(),
+                                    style: const TextStyle(
+                                      fontSize: 15.0,
+                                      // fontWeight: FontWeight.w600,
+                                      color: AppColors.black,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
 
+                                  ),
+                                  Text(
+                                    'f dsf dsf',
+                                    style: const TextStyle(
+                                      // fontSize: 15.0,
+                                      // fontWeight: FontWeight.w500,
+                                      color: AppColors.text4,
                                     ),
-                                    Text(
-                                      'f dsf dsf',
-                                      style: const TextStyle(
-                                        fontSize: 15.0,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColors.text4,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                  ],
-                                ),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                ],
                               ),
-                              Container(
-                                padding: EdgeInsets.all(5.0),
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(Radius.circular(4.0)),
-                                  color: Color(0xFFF0F0F9),
-                                ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        int count = cartList[index].qty!;
-                                        count++;
-                                        cartList[index].qty = count;
-                                        setState(() {});
-                                      },
-                                      child: SvgPicture.asset(
-                                          'assets/icons/cart_increment.svg',width: 20.0,height: 20.0
-                                      ),
-                                    ),
-                                    Container(
-                                      padding: EdgeInsets.symmetric(vertical: 5.0),
-                                      child: Text(
-                                          cartList[index].qty.toString(),
-                                          style: TextStyle(color: AppColors.black)
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        int count = cartList[index].qty!;
-                                        if(count > 0){
-                                          count--;
-                                        }
-                                        cartList[index].qty = count;
-                                        setState(() {});
-                                      },
-                                      child: SvgPicture.asset(
-                                          'assets/icons/cart_decrement.svg',width: 20.0,height: 20.0
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(4.0)),
+                                color: Color(0xFFF0F0F9),
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      actionPane: SlidableDrawerActionPane(),
-                      secondaryActions: <Widget>[
-                        IconSlideAction(
-                          iconWidget: SvgPicture.asset('assets/icons/delete2.svg',width: 100.0),
-                          onTap: () {
-                            cartList.removeAt(index);
-                            setState(() {});
-                          },
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      int count = cartList[index].qty!;
+                                      count++;
+                                      cartList[index].qty = count;
+                                      setState(() {});
+                                    },
+                                    child: SvgPicture.asset(
+                                        'assets/icons/cart_increment.svg',width: 20.0,height: 20.0
+                                    ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(vertical: 5.0),
+                                    child: Text(
+                                        cartList[index].qty.toString(),
+                                        style: TextStyle(color: AppColors.black)
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      int count = cartList[index].qty!;
+                                      if(count > 0){
+                                        count--;
+                                      }
+                                      cartList[index].qty = count;
+                                      setState(() {});
+                                    },
+                                    child: SvgPicture.asset(
+                                        'assets/icons/cart_decrement.svg',width: 20.0,height: 20.0
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -339,6 +326,7 @@ class _BasketState extends State<Basket> with TickerProviderStateMixin {
                           maxLines: 1,
                         ),
                         Text(
+                          // '\$${formatter.format(total.toString())}',
                           '\$ ${total.toString()}',
                           style: const TextStyle(
                             fontSize: 20.0,

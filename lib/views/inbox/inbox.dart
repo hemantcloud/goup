@@ -61,83 +61,6 @@ class _InboxState extends State<Inbox> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle(
-          statusBarColor: Colors.white,
-          statusBarIconBrightness: Brightness.dark, // For Android (dark icons)
-          statusBarBrightness: Brightness.light, // For iOS (dark icons)
-        ),
-        toolbarHeight: 80.0,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.transparent,
-        flexibleSpace: Padding(
-          padding: EdgeInsets.only(top: 40.0, bottom: 10.0),
-          child: Container(
-            height: 60.0,
-            margin: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 0.0),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.transparent, width: 0.0),
-              borderRadius: BorderRadius.circular(5.0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(60.0)),
-                    border: Border.all(color: Colors.white,width: 5)
-                  ),
-                  margin: EdgeInsets.only(right: 5.0),
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage('assets/images/user1.png'),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                          border: Border.all(color: Colors.white,width: 1),
-                          color: Color(0xFF53F550),
-                        ),
-                        width: 10.0,
-                        height: 10.0,
-                      ),
-                    ),
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Sara Passaq',
-                        style: TextStyle(
-                          fontSize: 16.0,
-                          color: AppColors.black,
-                        ),
-                      ),
-                      Text(
-                        'Online',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: AppColors.text4,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                SvgPicture.asset(
-                  'assets/icons/menu.svg',
-                  height: 20.0,
-                  // color: AppColors.secondary,
-                ),
-              ],
-            ),
-          ),
-        ),
-        elevation: 0.0,
-      ),*/
       appBar: AppBar(
         title: Text('Messages',style: TextStyle(color: AppColors.black)),
         backgroundColor: Color(0xFFFAFAFA),
@@ -147,7 +70,7 @@ class _InboxState extends State<Inbox> with TickerProviderStateMixin {
         children: [
           Container(
             height: 58.0,
-            margin: EdgeInsets.only(top: 10.0,left: 20.0,right: 20.0),
+            margin: EdgeInsets.only(top: 10.0,left: 16.0,right: 16.0),
             padding: EdgeInsets.symmetric(vertical: 5.0,),
             decoration: BoxDecoration(
               border: Border.all(color: Color(0xFFF1F1F7)),
@@ -171,7 +94,7 @@ class _InboxState extends State<Inbox> with TickerProviderStateMixin {
           ),
           Container(
             height: 50.0,
-            margin: EdgeInsets.fromLTRB(20.0, 26.0, 20.0, 0.0),
+            margin: EdgeInsets.fromLTRB(16.0, 10.0, 16.0, 0.0),
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.transparent,width: 0.0),
@@ -221,7 +144,7 @@ class _InboxState extends State<Inbox> with TickerProviderStateMixin {
               children: [
                 ListView.builder(
                   shrinkWrap: true,
-                  physics: const ScrollPhysics(),
+                  physics: ClampingScrollPhysics(),
                   itemCount: userList.length,
                   itemBuilder: (BuildContext context, int index) {
                     return InkWell(
