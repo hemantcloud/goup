@@ -5,21 +5,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:goup/models/accrount_type_list_select_model.dart';
+import 'package:goup/models/cart_model.dart';
 import 'package:goup/models/category_list_select_model.dart';
 import 'package:goup/models/delivery_list_select_model.dart';
 import 'package:goup/models/product_model.dart';
 import 'package:goup/views/home/product_detail.dart';
+import 'package:goup/views/profile/scan_code.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
 
-class ProfileQuickView extends StatefulWidget {
-  const ProfileQuickView({Key? key}) : super(key: key);
+class OtherUsersProfile extends StatefulWidget {
+  const OtherUsersProfile({Key? key}) : super(key: key);
 
   @override
-  State<ProfileQuickView> createState() => _ProfileQuickViewState();
+  State<OtherUsersProfile> createState() => _OtherUsersProfileState();
 }
 
-class _ProfileQuickViewState extends State<ProfileQuickView> with TickerProviderStateMixin {
+class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProviderStateMixin {
   late TabController _tabBarController;
   final List<ProductModel> productList = [
     ProductModel(name: 'iPhone 13 Pro Max', image: 'assets/images/product_image.jpg', price: '758', isFav: false),
@@ -30,6 +32,18 @@ class _ProfileQuickViewState extends State<ProfileQuickView> with TickerProvider
     ProductModel(name: 'Double monk sho', image: 'assets/images/product_image5.png', price: '758', isFav: false),
     ProductModel(name: 'Macbook Pro 13 in', image: 'assets/images/product_image6.png', price: '758', isFav: false),
     ProductModel(name: 'Apple watch 7 se', image: 'assets/images/product_image7.png', price: '758', isFav: false),
+  ];
+  final List<CartModel> productlist = [
+    CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', status: 'Pending', orderId: 'SN#185415185'),
+    CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', status: 'Recieved', orderId: 'SN#185415185'),
+    CartModel(name: 'Nike military green sneaker', image: 'assets/images/product_image.png', status: 'Delivered', orderId: 'SN#185415185'),
+    CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', status: 'Recieved', orderId: 'SN#185415185'),
+    CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', status: 'Pending', orderId: 'SN#185415185'),
+    CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', status: 'Delivered', orderId: 'SN#185415185'),
+    CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', status: 'Recieved', orderId: 'SN#185415185'),
+    CartModel(name: 'Nike military green sneaker', image: 'assets/images/product_image.png', status: 'Pending', orderId: 'SN#185415185'),
+    CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', status: 'Cancelled', orderId: 'SN#185415185'),
+    CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', status: 'Delivered', orderId: 'SN#185415185'),
   ];
   String? categorylistselected;
   List<CategoryListSelectModel>? categoryListSelect = [
@@ -297,11 +311,11 @@ class _ProfileQuickViewState extends State<ProfileQuickView> with TickerProvider
                     color: AppColors.text,
                   ),
                   overflow: TextOverflow.ellipsis,
-                  maxLines: 4,
+                  maxLines: 2,
                 ),
               ),
               Container(
-                height: 48,
+                height: 48.0,
                 margin: EdgeInsets.only(top: 20.0),
                 padding: EdgeInsets.symmetric(vertical: 5.0),
                 decoration: BoxDecoration(
@@ -330,419 +344,282 @@ class _ProfileQuickViewState extends State<ProfileQuickView> with TickerProvider
                 child: TabBarView(
                   controller: _tabBarController,
                   children: [
-                    Padding(
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: ScrollPhysics(),
-                        gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 30 / 2,
-                          childAspectRatio: 7 / 11,
-                        ),
-                        itemCount: productList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Column(
+                      itemCount:  productlist.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return Container(
+                          padding: EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
+                          margin: EdgeInsets.fromLTRB(0.0,5.0,0.0,5.0),
+                          decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                            // color: Colors.red.shade100,
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                height: 165.0,
-                                alignment: Alignment.bottomCenter,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    width: 0.5,
-                                    color: Color(0xFF9CA3AF),
-                                    style: BorderStyle.solid,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Image.asset(
+                                  //   'assets/images/profile.png',
+                                  //   width: 40.0,
+                                  // ),
+                                  CircleAvatar(
+                                    maxRadius: 22.0,
+                                    backgroundImage: AssetImage('assets/images/product_image.png'),
                                   ),
-                                ),
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      // padding: EdgeInsets.only(top: 30.0,left: 10.0,right: 10.0),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            PageTransition(
-                                              type: PageTransitionType.rightToLeftWithFade,
-                                              alignment: Alignment.topCenter,
-                                              duration: Duration(milliseconds: 1000),
-                                              isIos: true,
-                                              child: ProductDetail(),
-                                            ),
-                                          );
-                                        },
-                                        child: Image.asset(
-                                          productList[index].image.toString(),
-                                          height: 160.0,
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 10,
-                                      left: 0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          formBottomSheet(context);
-                                          // setState(() {});
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/menu.svg',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 10,
-                                      right: 0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          // if(productList[index].isFav == false){
-                                          //   productList[index].isFav = true;
-                                          // }else{
-                                          //   productList[index].isFav = false;
-                                          // }
-                                          productList[index].isFav = !productList[index].isFav!;
-                                          setState(() {});
-                                        },
-                                        child:
-                                        productList[index].isFav == false ?
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/empty_heart.svg',
-                                          ),
-                                        ) :
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/filled_heart.svg',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      // crossAxisAlignment: CrossAxisAlignment.start,
+                                  SizedBox(width: 10.0),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                            productList[index].name.toString(),
-                                            style: TextStyle(
-                                              color: AppColors.black,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
+                                        Text(
+                                          'Farhan Malik',
+                                          style: const TextStyle(
+                                            fontSize: 15.0,
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColors.black,
                                           ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
                                         ),
-                                        SvgPicture.asset('assets/icons/shopping_cart.svg'),
+                                        Text(
+                                          '1 hr. near Ryadh',
+                                          style: const TextStyle(
+                                            color: AppColors.text4,
+                                          ),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                        ),
                                       ],
                                     ),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        '\$ ${productList[index].price.toString()}',
-                                        style: TextStyle(
-                                            color: AppColors.primary,
-                                            fontWeight: FontWeight.w700
-                                        ),
-                                      ),
+                                  ),
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                    child: SvgPicture.asset(
+                                        'assets/icons/shopping_cart.svg',
+                                        color: AppColors.secondary
                                     ),
-                                  ],
+                                  ),
+                                  SvgPicture.asset(
+                                      'assets/icons/menu.svg',
+                                      color: AppColors.secondary
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(vertical: 10.0),
+                                child: Text(
+                                  'iPhone 13 pro max, no scratch. Grab it asap!!',
+                                  style: const TextStyle(
+                                    color: AppColors.black,
+                                  ),
                                 ),
                               ),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Image.asset('assets/images/product_image10.jpg'),
+                                  ),
+                                  Expanded(
+                                    flex: 1,
+                                    child: Column(
+                                      children: [
+                                        Image.asset('assets/images/product_image11.jpg'),
+                                        Image.asset('assets/images/product_image12.jpg'),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ],
-                          );
-                        },
-                      ),
+                          ),
+                        );
+                      },
                     ),
-                    Padding(
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: ScrollPhysics(),
-                        gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 30 / 2,
-                          childAspectRatio: 7 / 11,
-                        ),
-                        itemCount: productList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Column(
-                            children: [
-                              Container(
-                                height: 165.0,
-                                alignment: Alignment.bottomCenter,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    width: 0.5,
-                                    color: Color(0xFF9CA3AF),
-                                    style: BorderStyle.solid,
+                      itemCount:  productlist.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.rightToLeftWithFade,
+                                alignment: Alignment.topCenter,
+                                duration: Duration(milliseconds: 1000),
+                                isIos: true,
+                                child: ProductDetail(),
+                              ),
+                            );
+                          },
+                          splashColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(0.0,10.0,10.0,10.0),
+                            margin: EdgeInsets.fromLTRB(0.0,5.0,0.0,5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                              // color: Colors.red.shade100,
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 60.0,
+                                  height: 60.0,
+                                  margin: EdgeInsets.only(right: 10.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                    image: DecorationImage(
+                                      image: AssetImage(productlist[index].image.toString()),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      // padding: EdgeInsets.only(top: 30.0,left: 10.0,right: 10.0),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            PageTransition(
-                                              type: PageTransitionType.rightToLeftWithFade,
-                                              alignment: Alignment.topCenter,
-                                              duration: Duration(milliseconds: 1000),
-                                              isIos: true,
-                                              child: ProductDetail(),
+                                Expanded(
+                                  flex: 1,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        productlist[index].orderId.toString(),
+                                        style: const TextStyle(
+                                          // fontWeight: FontWeight.w600,
+                                          color: AppColors.black,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      Text(
+                                        'Scan the QR code for delivery.',
+                                        style: const TextStyle(
+                                          fontSize: 12.0,
+                                          color: AppColors.text4,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                      ),
+                                      Text.rich(
+                                        TextSpan(
+                                          children: [
+                                            TextSpan(text: 'Status: ',style: TextStyle(color: AppColors.text4,fontSize: 12.0)),
+                                            TextSpan(
+                                                text: 'Purchased',
+                                                style: TextStyle(
+                                                    color: AppColors.primary,
+                                                    fontSize: 12.0
+                                                )
                                             ),
-                                          );
-                                        },
-                                        child: Image.asset(
-                                          productList[index].image.toString(),
-                                          height: 160.0,
+                                          ],
                                         ),
                                       ),
-                                    ),
-                                    Positioned(
-                                      top: 10,
-                                      left: 0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          formBottomSheet(context);
-                                          // setState(() {});
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/menu.svg',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Positioned(
-                                      top: 10,
-                                      right: 0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          // if(productList[index].isFav == false){
-                                          //   productList[index].isFav = true;
-                                          // }else{
-                                          //   productList[index].isFav = false;
-                                          // }
-                                          productList[index].isFav = !productList[index].isFav!;
-                                          setState(() {});
-                                        },
-                                        child:
-                                        productList[index].isFav == false ?
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/empty_heart.svg',
-                                          ),
-                                        ) :
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/filled_heart.svg',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      // crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                            productList[index].name.toString(),
-                                            style: TextStyle(
-                                              color: AppColors.black,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                          ),
-                                        ),
-                                        SvgPicture.asset('assets/icons/shopping_cart.svg'),
-                                      ],
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        '\$ ${productList[index].price.toString()}',
-                                        style: TextStyle(
-                                            color: AppColors.primary,
-                                            fontWeight: FontWeight.w700
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                    Padding(
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
                       padding: const EdgeInsets.only(top: 10.0),
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: ScrollPhysics(),
-                        gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 30 / 2,
-                          childAspectRatio: 7 / 11,
-                        ),
-                        itemCount: productList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Column(
-                            children: [
-                              Container(
-                                height: 165.0,
-                                alignment: Alignment.bottomCenter,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: Colors.white,
-                                  border: Border.all(
-                                    width: 0.5,
-                                    color: Color(0xFF9CA3AF),
-                                    style: BorderStyle.solid,
+                      itemCount:  productlist.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.rightToLeftWithFade,
+                                alignment: Alignment.topCenter,
+                                duration: Duration(milliseconds: 1000),
+                                isIos: true,
+                                child: ProductDetail(),
+                              ),
+                            );
+                          },
+                          splashColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          child: Container(
+                            padding: EdgeInsets.fromLTRB(0.0,10.0,10.0,10.0),
+                            margin: EdgeInsets.fromLTRB(0.0,5.0,0.0,5.0),
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.all(Radius.circular(8.0)),
+                              // color: Colors.red.shade100,
+                              color: Colors.white,
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Container(
+                                  width: 60.0,
+                                  height: 60.0,
+                                  margin: EdgeInsets.only(right: 10.0),
+                                  decoration: BoxDecoration(
+                                    borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+                                    image: DecorationImage(
+                                      image: AssetImage(productlist[index].image.toString()),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                                child: Stack(
-                                  children: [
-                                    Container(
-                                      // padding: EdgeInsets.only(top: 30.0,left: 10.0,right: 10.0),
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            PageTransition(
-                                              type: PageTransitionType.rightToLeftWithFade,
-                                              alignment: Alignment.topCenter,
-                                              duration: Duration(milliseconds: 1000),
-                                              isIos: true,
-                                              child: ProductDetail(),
-                                            ),
-                                          );
-                                        },
-                                        child: Image.asset(
-                                          productList[index].image.toString(),
-                                          height: 160.0,
+                                Expanded(
+                                  flex: 1,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        productlist[index].orderId.toString(),
+                                        style: const TextStyle(
+                                          // fontWeight: FontWeight.w600,
+                                          color: AppColors.black,
                                         ),
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                    ),
-                                    Positioned(
-                                      top: 10,
-                                      left: 0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          formBottomSheet(context);
-                                          // setState(() {});
-                                        },
-                                        child: Padding(
-                                          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/menu.svg',
-                                          ),
+                                      Text(
+                                        'Scan the QR code for delivery.',
+                                        style: const TextStyle(
+                                          fontSize: 12.0,
+                                          color: AppColors.text4,
                                         ),
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
                                       ),
-                                    ),
-                                    Positioned(
-                                      top: 10,
-                                      right: 0,
-                                      child: InkWell(
-                                        onTap: () {
-                                          // if(productList[index].isFav == false){
-                                          //   productList[index].isFav = true;
-                                          // }else{
-                                          //   productList[index].isFav = false;
-                                          // }
-                                          productList[index].isFav = !productList[index].isFav!;
-                                          setState(() {});
-                                        },
-                                        child:
-                                        productList[index].isFav == false ?
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/empty_heart.svg',
-                                          ),
-                                        ) :
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 8.0),
-                                          child: SvgPicture.asset(
-                                            'assets/icons/filled_heart.svg',
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                      Text(
+                                        '\$1200',
+                                        style: TextStyle(color: AppColors.primary,fontWeight: FontWeight.w600),
+                                      )
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              Container(
-                                padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      // crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Expanded(
-                                          flex: 1,
-                                          child: Text(
-                                            productList[index].name.toString(),
-                                            style: TextStyle(
-                                              color: AppColors.black,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                            maxLines: 2,
-                                          ),
-                                        ),
-                                        SvgPicture.asset('assets/icons/shopping_cart.svg'),
-                                      ],
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-                                        '\$ ${productList[index].price.toString()}',
-                                        style: TextStyle(
-                                            color: AppColors.primary,
-                                            fontWeight: FontWeight.w700
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                Container(
+                                  padding: EdgeInsets.only(right: 10.0),
+                                  child: SvgPicture.asset(
+                                      'assets/icons/filled_heart.svg'
+                                  ),
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:goup/models/product_size_model.dart';
 import 'package:goup/models/product_detail_model.dart';
+import 'package:goup/views/home/comment2.dart';
 import 'package:goup/views/home/order_preview.dart';
 import 'package:goup/views/home/comment.dart';
 import 'package:goup/views/home/home_slider.dart';
+import 'package:goup/views/home/other_users_profile.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
 class ProductDetail extends StatefulWidget {
@@ -66,29 +68,59 @@ class _ProductDetailState extends State<ProductDetail> {
                       left: 16,
                       child: InkWell(
                         onTap: () => Navigator.pop(context),
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
                         child: SvgPicture.asset('assets/icons/left.svg',width: 10.0,color: AppColors.black,),
                       )
                     ),
                     Positioned(
                       top: 35,
                       left: 40,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(60.0),
-                        child: Image.asset(
-                          'assets/images/profile.png',
-                          width: 40.0,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              alignment: Alignment.topCenter,
+                              duration: Duration(milliseconds: 1000),
+                              isIos: true,
+                              child: OtherUsersProfile(),
+                            ),
+                          );
+                        },
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(60.0),
+                          child: Image.asset(
+                            'assets/images/profile.png',
+                            width: 40.0,
+                          ),
                         ),
                       ),
                     ),
                     Positioned(
                       top: 40,
                       left: 90,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('Farhan Malik',style: TextStyle(color: AppColors.black),),
-                          Text('3 hrs. Near Jeddah',style: TextStyle(color: AppColors.black),)
-                        ],
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              alignment: Alignment.topCenter,
+                              duration: Duration(milliseconds: 1000),
+                              isIos: true,
+                              child: OtherUsersProfile(),
+                            ),
+                          );
+                        },
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('Farhan Malik',style: TextStyle(color: AppColors.black),),
+                            Text('3 hrs. Near Jeddah',style: TextStyle(color: AppColors.black),)
+                          ],
+                        ),
                       ),
                     ),
                     Positioned(
@@ -96,6 +128,8 @@ class _ProductDetailState extends State<ProductDetail> {
                         right: 30,
                         child: InkWell(
                           // onTap: () => Navigator.pop(context),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                           child: Padding(padding: EdgeInsets.all(10.0),child: SvgPicture.asset('assets/icons/shopping_cart.svg',color: AppColors.black)),
                         )
                     ),
@@ -104,51 +138,56 @@ class _ProductDetailState extends State<ProductDetail> {
                         right: 10,
                         child: InkWell(
                           onTap: () => moreBottomSheet(context),
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                           child: Padding(padding: EdgeInsets.all(10.0),child: SvgPicture.asset('assets/icons/menu.svg',color: AppColors.black)),
                         )
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: Row(
-                          children: [
-                            InkWell(
-                              onTap: (){
-                                int like = int.parse(likeCount.toString());
-                                if(_isLiked == false){
-                                  _isLiked = true;
-                                  like++;
-                                  likeCount = like.toString();
-                                }else{
-                                  _isLiked = false;
-                                  like--;
-                                  likeCount = like.toString();
-                                }
-                                setState(() {});
-                              },
-                              child: Container(
-                                padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.01),
-                                child: Row(
-                                  children: [
-                                    SvgPicture.asset(
-                                      _isLiked == true
-                                          ? 'assets/icons/filled_heart.svg'
-                                          : 'assets/icons/empty_heart.svg',
-                                      width: 16.0,
-                                      height: 16.0,
-                                    ),
-                                    SizedBox(width: 3.0),
-                                    Text(likeCount.toString(),style: TextStyle(color: AppColors.text),)
-                                  ],
-                                ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: (){
+                              int like = int.parse(likeCount.toString());
+                              if(_isLiked == false){
+                                _isLiked = true;
+                                like++;
+                                likeCount = like.toString();
+                              }else{
+                                _isLiked = false;
+                                like--;
+                                likeCount = like.toString();
+                              }
+                              setState(() {});
+                            },
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            child: Container(
+                              padding: EdgeInsets.only(left: 16.0,right: MediaQuery.of(context).size.width * 0.03),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    _isLiked == true
+                                        ? 'assets/icons/filled_heart.svg'
+                                        : 'assets/icons/empty_heart.svg',
+                                    width: 16.0,
+                                    height: 16.0,
+                                  ),
+                                  SizedBox(width: 3.0),
+                                  Text(likeCount.toString(),style: TextStyle(color: AppColors.text),)
+                                ],
                               ),
                             ),
-                            InkWell(
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: InkWell(
                               onTap: () {
                                 Navigator.push(
                                   context,
@@ -157,10 +196,12 @@ class _ProductDetailState extends State<ProductDetail> {
                                     alignment: Alignment.topCenter,
                                     duration: Duration(milliseconds: 1000),
                                     isIos: true,
-                                    child: Comment(),
+                                    child: Comment2(),
                                   ),
                                 );
                               },
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
                               child: Container(
                                 padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.01),
                                 child: Row(
@@ -176,36 +217,61 @@ class _ProductDetailState extends State<ProductDetail> {
                                 ),
                               ),
                             ),
-                            Container(
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/share.svg',
-                                    width: 16.0,
-                                    height: 16.0,
-                                  ),
-                                  SizedBox(width: 3.0),
-                                  Text('04',style: TextStyle(color: AppColors.text),)
-                                ],
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/icons/share.svg',
+                                  width: 16.0,
+                                  height: 16.0,
+                                ),
+                                SizedBox(width: 3.0),
+                                Text('04',style: TextStyle(color: AppColors.text),)
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            flex: 1,
+                            child: InkWell(
+                              onTap: () => analyticsBottomSheet(context),
+                              splashColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              child: Container(
+                                padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.01),
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      'assets/icons/stock.svg',
+                                      width: 16.0,
+                                      height: 16.0,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.01),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    'assets/icons/stock.svg',
-                                    width: 16.0,
-                                    height: 16.0,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 0.33,
+                    ),
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.rightToLeftWithFade,
+                            alignment: Alignment.topCenter,
+                            duration: Duration(milliseconds: 1000),
+                            isIos: true,
+                            child: Comment2(),
+                          ),
+                        );
+                      },
+                      splashColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10.0),
                         height: 39.0,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
@@ -219,9 +285,10 @@ class _ProductDetailState extends State<ProductDetail> {
                             color: Colors.white,
                           ),
                         ),
-                      )
-                    ],
-                  ),
+                      ),
+                    ),
+                    SizedBox(width: 16.0),
+                  ],
                 ),/*
                 Container(
                   alignment: Alignment.centerLeft,
@@ -331,7 +398,7 @@ class _ProductDetailState extends State<ProductDetail> {
                   },
                 ),
               ),*/
-              child: Padding(
+              child: Container(
                 padding: const EdgeInsets.fromLTRB(16.0, 20.0, 16.0, 0.0),
                 child: SingleChildScrollView(
                   physics: ScrollPhysics(),
@@ -352,7 +419,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                   style: TextStyle(
                                     color: AppColors.black,
                                     fontSize: 15.0,
-                                    fontWeight: FontWeight.w600
+                                    // fontWeight: FontWeight.w600
                                   )
                                 ),
                               ],
@@ -375,7 +442,7 @@ class _ProductDetailState extends State<ProductDetail> {
                                   ),
                                   TextSpan(
                                     text: 'Military green',
-                                    style: TextStyle(fontWeight: FontWeight.bold,color: AppColors.black),
+                                    style: TextStyle(color: AppColors.black),
                                   ),
                                 ],
                               ),
@@ -403,6 +470,8 @@ class _ProductDetailState extends State<ProductDetail> {
                                     productDetailSelected = productDetailList[index].image;
                                     setState(() {});
                                   },
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
                                   child: Container(
                                     width: 77.5,
                                     // height: 100.0,
@@ -462,6 +531,8 @@ class _ProductDetailState extends State<ProductDetail> {
                                     productSizeSelected = productSizes[index].size!;
                                     setState(() {});
                                   },
+                                  splashColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
                                   child: Container(
                                     width: 40.0,
                                     // height: 100.0,
@@ -504,7 +575,7 @@ class _ProductDetailState extends State<ProductDetail> {
                             style: TextStyle(
                                 color: AppColors.black,
                                 fontSize: 15.0,
-                                fontWeight: FontWeight.w600
+                                // fontWeight: FontWeight.w600
                             )
                         ),
                       ),
@@ -524,7 +595,7 @@ class _ProductDetailState extends State<ProductDetail> {
                               style: TextStyle(
                                 color: AppColors.black,
                                 fontSize: 15.0,
-                                fontWeight: FontWeight.w600
+                                // fontWeight: FontWeight.w600
                               )
                             ),
                             Text(
@@ -636,6 +707,8 @@ class _ProductDetailState extends State<ProductDetail> {
                     ),
                   );
                 },
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
                 child: Container(
                   width: MediaQuery.of(context).size.width * 0.33,
                   height: 50.0,
@@ -859,5 +932,128 @@ class _ProductDetailState extends State<ProductDetail> {
           );
         });
   }
-
+  analyticsBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                child: Wrap(
+                  children: [
+                    Container(
+                      constraints: BoxConstraints(
+                        maxHeight: double.infinity,
+                      ),
+                      margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25.0),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 30.0),
+                          const Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(top: 20.0,left: 20.0,right: 20.0),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Summary of this post',
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'With changes over the previous period',
+                              style: TextStyle(
+                                color: AppColors.secondary,
+                              ),
+                            ),
+                          ),
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 30 / 2,
+                              childAspectRatio: 8 / 4,
+                            ),
+                            itemCount: 8,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    // color: Colors.transparent,
+                                    padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(bottom: 5.0),
+                                          // color: Colors.red,
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            'Products',
+                                            style: TextStyle(color: AppColors.black),
+                                          ),
+                                        ),
+                                        Row(
+                                          // crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '1.815',
+                                              style: TextStyle(
+                                                color: AppColors.primary,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  SvgPicture.asset('assets/icons/arrow_up.svg'),
+                                                  Text(
+                                                    '38.3%',
+                                                    style: TextStyle(
+                                                      color: AppColors.black,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SvgPicture.asset('assets/icons/vertical_graph_line.svg'),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        });
+  }
 }

@@ -283,7 +283,7 @@ class _HomeState extends State<Home> {
                                 ),
                               ),
                             ),
-                            Positioned(
+                            /*Positioned(
                               top: 10,
                               left: 0,
                               child: InkWell(
@@ -298,7 +298,7 @@ class _HomeState extends State<Home> {
                                   ),
                                 ),
                               ),
-                            ),
+                            ),*/
                             Positioned(
                               top: 10,
                               right: 0,

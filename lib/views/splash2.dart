@@ -58,15 +58,15 @@ class _Splash2State extends State<Splash2> {
             Center(
               child: Padding(
                 padding: EdgeInsets.only(
-                  top: MediaQuery.of(context).size.width,
+                  top: MediaQuery.of(context).size.width * 0.7,
                   bottom: MediaQuery.of(context).size.width * 0.05,
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    SvgPicture.asset(
-                      'assets/icons/goup.svg',
-                      width: 150.0,
+                    Image.asset(
+                      'assets/images/goup_logo.png',
+                      width: 120.0,
                     ),
                     Text(
                       'Tap anywhere to start',
