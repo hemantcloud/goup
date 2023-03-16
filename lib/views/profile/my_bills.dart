@@ -9,6 +9,7 @@ import 'package:goup/models/notification_users_list.dart';
 import 'package:goup/models/transaction_history.dart';
 import 'package:goup/models/users_list.dart';
 import 'package:goup/views/inbox/chat.dart';
+import 'package:goup/views/profile/withdrawal.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -110,26 +111,50 @@ class _MyBillsState extends State<MyBills>{
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Expanded(
-                      child: Column(
-                        children: [
-                          Text(
-                            'My Earnings\n',
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              color: AppColors.text,
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            PageTransition(
+                              type: PageTransitionType.rightToLeftWithFade,
+                              alignment: Alignment.topCenter,
+                              duration: Duration(milliseconds: 1000),
+                              isIos: true,
+                              child: Withdrawal(),
                             ),
-                          ),
-                          Text(
-                            '\$7489',
-                            style: TextStyle(
-                                color: AppColors.black,
-                                fontSize: 20.0,
-                                fontWeight: FontWeight.w600
+                          );
+                        },
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        child: Column(
+                          children: [
+                            Text(
+                              'My Earnings\n',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: AppColors.text,
+                              ),
                             ),
-                          ),
-                        ],
+                            Text(
+                              '\$7489',
+                              style: TextStyle(
+                                  color: AppColors.black,
+                                  fontSize: 20.0,
+                                  fontWeight: FontWeight.w600
+                              ),
+                            ),
+                            Text(
+                              'Withdraw',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                color: AppColors.primary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     SvgPicture.asset('assets/icons/veritical_line.svg'),
@@ -275,7 +300,7 @@ class _MyBillsState extends State<MyBills>{
           ),
         ],
       ),
-      bottomSheet: Container(
+      /*bottomSheet: Container(
         padding: EdgeInsets.fromLTRB(10.0,20.0,10.0,0.0),
         height: 90.0,
         alignment: Alignment.center,
@@ -358,7 +383,7 @@ class _MyBillsState extends State<MyBills>{
             ),
           ],
         ),
-      ),
+      ),*/
     );
   }
 }

@@ -8,11 +8,11 @@ import 'package:goup/models/accrount_type_list_select_model.dart';
 import 'package:goup/models/cart_model.dart';
 import 'package:goup/models/category_list_select_model.dart';
 import 'package:goup/models/delivery_list_select_model.dart';
-import 'package:goup/models/product_model.dart';
+import 'package:goup/views/home/comment2.dart';
 import 'package:goup/views/home/product_detail.dart';
-import 'package:goup/views/profile/scan_code.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:share_plus/share_plus.dart';
 
 class OtherUsersProfile extends StatefulWidget {
   const OtherUsersProfile({Key? key}) : super(key: key);
@@ -23,17 +23,7 @@ class OtherUsersProfile extends StatefulWidget {
 
 class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProviderStateMixin {
   late TabController _tabBarController;
-  final List<ProductModel> productList = [
-    ProductModel(name: 'iPhone 13 Pro Max', image: 'assets/images/product_image.jpg', price: '758', isFav: false),
-    ProductModel(name: 'Double monk sho', image: 'assets/images/product_image5.png', price: '758', isFav: false),
-    ProductModel(name: 'Macbook Pro 13 in', image: 'assets/images/product_image6.png', price: '758', isFav: false),
-    ProductModel(name: 'Apple watch 7 se', image: 'assets/images/product_image7.png', price: '758', isFav: false),
-    ProductModel(name: 'iPhone 13 Pro Max', image: 'assets/images/product_image.jpg', price: '758', isFav: false),
-    ProductModel(name: 'Double monk sho', image: 'assets/images/product_image5.png', price: '758', isFav: false),
-    ProductModel(name: 'Macbook Pro 13 in', image: 'assets/images/product_image6.png', price: '758', isFav: false),
-    ProductModel(name: 'Apple watch 7 se', image: 'assets/images/product_image7.png', price: '758', isFav: false),
-  ];
-  final List<CartModel> productlist = [
+  final List<CartModel> productslist = [
     CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', status: 'Pending', orderId: 'SN#185415185'),
     CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', status: 'Recieved', orderId: 'SN#185415185'),
     CartModel(name: 'Nike military green sneaker', image: 'assets/images/product_image.png', status: 'Delivered', orderId: 'SN#185415185'),
@@ -45,6 +35,9 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
     CartModel(name: 'iphone 13 pro max', image: 'assets/images/product_image8.png', status: 'Cancelled', orderId: 'SN#185415185'),
     CartModel(name: 'Nike green sneaker', image: 'assets/images/product_image.png', status: 'Delivered', orderId: 'SN#185415185'),
   ];
+  bool _isLiked = false;
+  String? likeCount = '20';
+
   String? categorylistselected;
   List<CategoryListSelectModel>? categoryListSelect = [
     CategoryListSelectModel(id: 1, name: 'Category 1'),
@@ -253,7 +246,7 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                              // fontWeight: FontWeight.w600,
                               fontSize: 13.0,
                             ),
                           ),
@@ -348,7 +341,7 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
                       shrinkWrap: true,
                       physics: const ScrollPhysics(),
                       padding: const EdgeInsets.only(top: 10.0),
-                      itemCount:  productlist.length,
+                      itemCount:  5,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           padding: EdgeInsets.fromLTRB(10.0,10.0,10.0,10.0),
@@ -370,7 +363,7 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
                                   // ),
                                   CircleAvatar(
                                     maxRadius: 22.0,
-                                    backgroundImage: AssetImage('assets/images/product_image.png'),
+                                    backgroundImage: AssetImage('assets/images/profile.png'),
                                   ),
                                   SizedBox(width: 10.0),
                                   Expanded(
@@ -400,15 +393,23 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
                                     ),
                                   ),
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                    padding: EdgeInsets.only(left: 20.0),
                                     child: SvgPicture.asset(
                                         'assets/icons/shopping_cart.svg',
                                         color: AppColors.secondary
                                     ),
                                   ),
-                                  SvgPicture.asset(
-                                      'assets/icons/menu.svg',
-                                      color: AppColors.secondary
+                                  InkWell(
+                                    onTap: () => productMoreBottomSheet(context),
+                                    child: Row(
+                                      children: [
+                                        SizedBox(width: 20.0,),
+                                        SvgPicture.asset(
+                                            'assets/icons/menu.svg',
+                                            color: AppColors.secondary
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -419,21 +420,191 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
                                   style: const TextStyle(
                                     color: AppColors.black,
                                   ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
                                 ),
                               ),
                               Row(
                                 children: [
                                   Expanded(
                                     flex: 1,
-                                    child: Image.asset('assets/images/product_image10.jpg'),
+                                    child: Stack(
+                                      alignment: Alignment.bottomLeft,
+                                      children: [
+                                        Image.asset('assets/images/product_image10.jpg',height: 145.0,fit: BoxFit.cover),
+                                        Positioned(
+                                          bottom: 0,
+                                          left: 0,
+                                          child: Stack(
+                                            alignment: Alignment.center,
+                                            children: [
+                                              SvgPicture.asset("assets/icons/bg.svg",width: 55.0,),
+                                              Positioned(
+                                                bottom: 5,
+                                                left: 10,
+                                                child: Text("\$280",style: TextStyle(color: Colors.white,fontSize: 12.0)),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ),
+                                  SizedBox(width: 5.0),
                                   Expanded(
                                     flex: 1,
                                     child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Image.asset('assets/images/product_image11.jpg'),
-                                        Image.asset('assets/images/product_image12.jpg'),
+                                        Image.asset('assets/images/product_image11.jpg',height: 70.0,fit: BoxFit.cover),
+                                        SizedBox(height: 5.0),
+                                        Image.asset('assets/images/product_image12.jpg',height: 70.0,fit: BoxFit.cover),
                                       ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 10.0),
+                              Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Row(
+                                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: InkWell(
+                                            onTap: (){
+                                              int like = int.parse(likeCount.toString());
+                                              if(_isLiked == false){
+                                                _isLiked = true;
+                                                like++;
+                                                likeCount = like.toString();
+                                              }else{
+                                                _isLiked = false;
+                                                like--;
+                                                likeCount = like.toString();
+                                              }
+                                              setState(() {});
+                                            },
+                                            splashColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            child: Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  _isLiked == true
+                                                      ? 'assets/icons/filled_heart.svg'
+                                                      : 'assets/icons/empty_heart.svg',
+                                                  width: 16.0,
+                                                  height: 16.0,
+                                                ),
+                                                SizedBox(width: 3.0),
+                                                Text(likeCount.toString(),style: TextStyle(color: AppColors.text),),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                PageTransition(
+                                                  type: PageTransitionType.rightToLeftWithFade,
+                                                  alignment: Alignment.topCenter,
+                                                  duration: Duration(milliseconds: 1000),
+                                                  isIos: true,
+                                                  child: Comment2(),
+                                                ),
+                                              );
+                                            },
+                                            splashColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            child: Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/icons/chat.svg',
+                                                  width: 16.0,
+                                                  height: 16.0,
+                                                ),
+                                                SizedBox(width: 3.0),
+                                                Text('09',style: TextStyle(color: AppColors.text),)
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: InkWell(
+                                            onTap: () {
+                                              print("object");
+                                              _share();
+                                            },
+                                            child: Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/icons/share.svg',
+                                                  width: 16.0,
+                                                  height: 16.0,
+                                                ),
+                                                SizedBox(width: 3.0),
+                                                Text('04',style: TextStyle(color: AppColors.text),)
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        Expanded(
+                                          flex: 1,
+                                          child: InkWell(
+                                            onTap: () => analyticsBottomSheet(context),
+                                            splashColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            child: Row(
+                                              children: [
+                                                SvgPicture.asset(
+                                                  'assets/icons/stock.svg',
+                                                  width: 16.0,
+                                                  height: 16.0,
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        PageTransition(
+                                          type: PageTransitionType.rightToLeftWithFade,
+                                          alignment: Alignment.topCenter,
+                                          duration: Duration(milliseconds: 1000),
+                                          isIos: true,
+                                          child: Comment2(),
+                                        ),
+                                      );
+                                    },
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(horizontal: 10.0),
+                                      height: 39.0,
+                                      alignment: Alignment.center,
+                                      decoration: BoxDecoration(
+                                        color: AppColors.primary,
+                                        borderRadius: BorderRadius.all(Radius.circular(6.0)),
+                                      ),
+                                      child: Text(
+                                        // 'Buy at \$280',
+                                        'Send message',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -447,7 +618,7 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
                       shrinkWrap: true,
                       physics: const ScrollPhysics(),
                       padding: const EdgeInsets.only(top: 10.0),
-                      itemCount:  productlist.length,
+                      itemCount:  productslist.length,
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                           onTap: () {
@@ -484,7 +655,7 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                                     image: DecorationImage(
-                                      image: AssetImage(productlist[index].image.toString()),
+                                      image: AssetImage(productslist[index].image.toString()),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -495,7 +666,7 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        productlist[index].orderId.toString(),
+                                        productslist[index].orderId.toString(),
                                         style: const TextStyle(
                                           // fontWeight: FontWeight.w600,
                                           color: AppColors.black,
@@ -538,7 +709,7 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
                       shrinkWrap: true,
                       physics: const ScrollPhysics(),
                       padding: const EdgeInsets.only(top: 10.0),
-                      itemCount:  productlist.length,
+                      itemCount:  productslist.length,
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                           onTap: () {
@@ -575,7 +746,7 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(Radius.circular(10.0)),
                                     image: DecorationImage(
-                                      image: AssetImage(productlist[index].image.toString()),
+                                      image: AssetImage(productslist[index].image.toString()),
                                       fit: BoxFit.cover,
                                     ),
                                   ),
@@ -586,7 +757,7 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        productlist[index].orderId.toString(),
+                                        productslist[index].orderId.toString(),
                                         style: const TextStyle(
                                           // fontWeight: FontWeight.w600,
                                           color: AppColors.black,
@@ -1000,5 +1171,232 @@ class _OtherUsersProfileState extends State<OtherUsersProfile> with TickerProvid
             },
           );
         });
+  }
+  analyticsBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                child: Wrap(
+                  children: [
+                    Container(
+                      constraints: BoxConstraints(
+                        maxHeight: double.infinity,
+                      ),
+                      margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25.0),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 30.0),
+                          const Divider(
+                            height: 1,
+                            thickness: 0.1,
+                            color: Color(0xFF8D8D8D),
+                            // color: Colors.black,
+                          ),
+                          Container(
+                            padding: EdgeInsets.only(top: 20.0,left: 20.0,right: 20.0),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Summary of this post',
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            padding: EdgeInsets.fromLTRB(20.0, 0.0, 20.0, 20.0),
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'With changes over the previous period',
+                              style: TextStyle(
+                                color: AppColors.secondary,
+                              ),
+                            ),
+                          ),
+                          GridView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 30 / 2,
+                              childAspectRatio: 8 / 4,
+                            ),
+                            itemCount: 8,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Column(
+                                children: [
+                                  Container(
+                                    // color: Colors.transparent,
+                                    padding: EdgeInsets.symmetric(horizontal: 10.0,vertical: 10.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Container(
+                                          padding: EdgeInsets.only(bottom: 5.0),
+                                          // color: Colors.red,
+                                          alignment: Alignment.centerLeft,
+                                          child: Text(
+                                            'Products',
+                                            style: TextStyle(color: AppColors.black),
+                                          ),
+                                        ),
+                                        Row(
+                                          // crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              '1.815',
+                                              style: TextStyle(
+                                                color: AppColors.primary,
+                                              ),
+                                            ),
+                                            Expanded(
+                                              flex: 1,
+                                              child: Row(
+                                                mainAxisAlignment: MainAxisAlignment.end,
+                                                children: [
+                                                  SvgPicture.asset('assets/icons/arrow_up.svg'),
+                                                  Text(
+                                                    '38.3%',
+                                                    style: TextStyle(
+                                                      color: AppColors.black,
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SvgPicture.asset('assets/icons/vertical_graph_line.svg'),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        });
+  }
+  productMoreBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                child: Wrap(
+                  children: [
+                    Container(
+                      constraints: BoxConstraints(
+                        maxHeight: double.infinity,
+                      ),
+                      margin: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(25.0),
+                        color: Colors.white,
+                      ),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 30.0),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  color: Color(0xFFEAEAEA),
+                                  height: 1.0,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0,bottom: 10.0,left: 20.0),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                    'assets/icons/unfollow.svg'
+                                ),
+                                SizedBox(width: 10.0),
+                                Text(
+                                  'Unfollow',
+                                  style: TextStyle(
+                                    color: AppColors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  color: Color(0xFFEAEAEA),
+                                  height: 1.0,
+                                  child: null,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0,bottom: 10.0,left: 20.0),
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                    'assets/icons/link.svg'
+                                ),
+                                SizedBox(width: 10.0),
+                                Text(
+                                  'Copy link',
+                                  style: TextStyle(
+                                    color: AppColors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Container(
+                                  color: Color(0xFFEAEAEA),
+                                  height: 1.0,
+                                  child: null,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20.0),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              );
+            },
+          );
+        });
+  }
+  void _share() {
+    Share.share('check out my website https://example.com', subject: 'Look what I made!');
   }
 }

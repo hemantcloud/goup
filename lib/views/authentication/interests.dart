@@ -152,7 +152,7 @@ class _InterestsState extends State<Interests> {
                 isIos: true,
                 child: Dashboard(bottomIndex: 0),
               ),
-                  (route) => false,
+              (route) => false,
             );
           }
         },

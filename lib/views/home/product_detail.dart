@@ -11,6 +11,7 @@ import 'package:goup/views/home/home_slider.dart';
 import 'package:goup/views/home/other_users_profile.dart';
 import 'package:goup/views/utilities/utilities.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:share_plus/share_plus.dart';
 class ProductDetail extends StatefulWidget {
   const ProductDetail({Key? key}) : super(key: key);
 
@@ -47,6 +48,7 @@ class _ProductDetailState extends State<ProductDetail> {
   bool _isLiked = false;
   String? likeCount = '30';
   int _count = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -220,16 +222,22 @@ class _ProductDetailState extends State<ProductDetail> {
                           ),
                           Expanded(
                             flex: 1,
-                            child: Row(
-                              children: [
-                                SvgPicture.asset(
-                                  'assets/icons/share.svg',
-                                  width: 16.0,
-                                  height: 16.0,
-                                ),
-                                SizedBox(width: 3.0),
-                                Text('04',style: TextStyle(color: AppColors.text),)
-                              ],
+                            child: InkWell(
+                              onTap: () {
+                                print("object");
+                                _share();
+                              },
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    'assets/icons/share.svg',
+                                    width: 16.0,
+                                    height: 16.0,
+                                  ),
+                                  SizedBox(width: 3.0),
+                                  Text('04',style: TextStyle(color: AppColors.text),)
+                                ],
+                              ),
                             ),
                           ),
                           Expanded(
@@ -1055,5 +1063,8 @@ class _ProductDetailState extends State<ProductDetail> {
             },
           );
         });
+  }
+  void _share() {
+    Share.share('check out my website https://example.com', subject: 'Look what I made!');
   }
 }

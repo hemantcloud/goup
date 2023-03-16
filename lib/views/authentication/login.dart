@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:goup/utitlities/utitlities.dart';
 import 'package:goup/views/authentication/otp.dart';
+import 'package:goup/views/dashboard.dart';
 import 'package:goup/views/home/product_detail.dart';
 import 'package:goup/views/home/profile_quick_view.dart';
 import 'package:goup/views/utilities/utilities.dart';
@@ -49,16 +50,6 @@ class _LoginState extends State<Login> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                /*InkWell(
-                  onTap: () => Navigator.of(context).pop(),
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  child: Container(
-                    width: 24.0,
-                    height: 24.0,
-                    child: SvgPicture.asset('assets/icons/back.svg'),
-                  ),
-                ),*/
                 Expanded(
                   flex: 1,
                   child: Center(
@@ -70,6 +61,24 @@ class _LoginState extends State<Login> {
                       ),
                     ),
                   ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.rightToLeftWithFade,
+                        alignment: Alignment.topCenter,
+                        duration: Duration(milliseconds: 1000),
+                        isIos: true,
+                        child: Dashboard(bottomIndex: 0),
+                      ),
+                      (route) => false,
+                    );
+                  },
+                  highlightColor: Colors.transparent,
+                  splashColor: Colors.transparent,
+                  child: SvgPicture.asset('assets/icons/skip.svg'),
                 ),
               ],
             ),

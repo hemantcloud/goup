@@ -11,7 +11,9 @@ import 'package:flutter_credit_card/credit_card_widget.dart';
 import 'package:flutter_credit_card/custom_card_type_icon.dart';
 import 'package:flutter_credit_card/glassmorphism_config.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:goup/views/dashboard.dart';
 import 'package:goup/views/utilities/utilities.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Payment extends StatefulWidget {
   Payment({Key? key,}): super(key: key);
@@ -219,6 +221,7 @@ class _PaymentState extends State<Payment> {
                 // payaccount(context,cardNumber,expiryDate,cardHolderName,cvvCode);
                 // payByTap(context, cardNumber, expiryDate,
                 //     cardHolderName, cvvCode);
+                successAlert(context);
               }
             },
             child: Container(
@@ -264,6 +267,92 @@ class _PaymentState extends State<Payment> {
         setState(() {});
       }
     }
+  }
+  Future successAlert(context) {
+    return showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+        ),
+        insetPadding: const EdgeInsets.symmetric(horizontal: 20.0/*,vertical: MediaQuery.of(context).size.height * 0.18*/),
+        content: Container(
+          // padding: EdgeInsets.symmetric(vertical: 10.0),
+          height: 300.0,
+          decoration: BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            border: Border.all(color: Colors.white),
+            color: Colors.white,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SvgPicture.asset('assets/icons/success.svg',height: 120.0,color: AppColors.primary,),
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 10.0),
+                child: const Text(
+                  'Congratulation',
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      color: AppColors.primary,
+                  ),
+                ),
+              ),
+              const Text(
+                'You have successfully changed your password',
+                style: TextStyle(
+                  color: AppColors.secondary,
+                ),
+                textAlign: TextAlign.center,
+                // maxLines: 3,
+                // overflow: TextOverflow.ellipsis,
+              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.rightToLeftWithFade,
+                            alignment: Alignment.topCenter,
+                            duration: const Duration(milliseconds: 1000),
+                            isIos: true,
+                            child: Dashboard(bottomIndex: 0),
+                          ),
+                          (route) => false,
+                        );
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: 50.0,
+                        margin: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.0),
+                        // padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                        decoration: const BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.all(Radius.circular(19.0)),
+                        ),
+                        child: const Text(
+                          'OK',
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w600,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
 }
